@@ -100,8 +100,8 @@ typedef NS_ENUM(NSInteger,DeviceType) {
 ```
 
 
-
-### 单例宏定义
+### 常用宏定义
+#### 1.单例宏
 
 ```
 #define XY_SINGLETON_DEF(_type_) + (_type_ *)sharedInstance;\
@@ -118,6 +118,157 @@ theSharedInstance = [[super alloc] init];\
 });\
 return theSharedInstance;\
 }
+```
+
+#### 2.屏幕宽高
+
+```
+#define SCREEN_WIDTH   [UIScreen mainScreen].bounds.size.width
+#define SCREENH_HEIGHT [UIScreen mainScreen].bounds.size.height
+
+支持横屏可以用下面的宏:
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000 // 当前Xcode支持iOS8及以上
+
+#define SCREEN_WIDTH ([[UIScreen mainScreen] respondsToSelector:@selector(nativeBounds)]?[UIScreen mainScreen].nativeBounds.size.width/[UIScreen mainScreen].nativeScale:[UIScreen mainScreen].bounds.size.width)
+#define SCREENH_HEIGHT ([[UIScreen mainScreen] respondsToSelector:@selector(nativeBounds)]?[UIScreen mainScreen].nativeBounds.size.height/[UIScreen mainScreen].nativeScale:[UIScreen mainScreen].bounds.size.height)
+#define SCREEN_SIZE ([[UIScreen mainScreen] respondsToSelector:@selector(nativeBounds)]?CGSizeMake([UIScreen mainScreen].nativeBounds.size.width/[UIScreen mainScreen].nativeScale,[UIScreen mainScreen].nativeBounds.size.height/[UIScreen mainScreen].nativeScale):[UIScreen mainScreen].bounds.size)
+#else
+#define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
+#define SCREENH_HEIGHT [UIScreen mainScreen].bounds.size.height
+#define SCREEN_SIZE [UIScreen mainScreen].bounds.size
+#endif
+```
+
+#### 3.颜色宏
+
+```
+#define RGBA(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(r)/255.0 blue:(r)/255.0 alpha:a]
+#define RGB(r, g, b) RGBA(r, g, b, 1.0)
+#define HEX(hex, a) RGBA(((float)((hex & 0xFF0000) >> 16)), ((float)((hex & 0xFF00) >> 8)), ((float)(hex & 0xFF)), a)
+```
+
+#### 4.自定义Log
+
+```
+#ifdef DEBUG
+#define XYLog(...) NSLog(@"%s 第%d行 \n %@\n\n",__func__,__LINE__,[NSString stringWithFormat:__VA_ARGS__])
+#else
+#define XYLog(...)
+#endif
+```
+
+#### 5.获取当前语言
+
+```
+#define XYCurrentLanguage ([[NSLocale preferredLanguages] objectAtIndex:0])
+```
+
+#### 6.沙盒目录文件
+
+```
+//获取temp
+#define kPathTemp NSTemporaryDirectory()
+
+//获取沙盒 Document
+#define kPathDocument [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]
+
+//获取沙盒 Cache
+#define kPathCache [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject]
+```
+
+#### 7.强弱引用宏
+
+```
+#define weakify(obj) __typeof__(obj) __weak obj##__weak_ = obj
+
+#define strongify(obj) __typeof__(obj##__weak_) __strong obj = obj##__weak_
+```
+
+#### 8.手机系统版本
+
+```
+#define XYSystemVersion [[UIDevice currentDevice] systemVersion]
+```
+
+#### 9.是否空类
+
+```
+#define IS_NULL(obj) [obj isEqual:[NSNull null]]
+```
+
+#### 10.角度弧度转换
+
+```
+#define XYDegreesToRadian(degrees) (M_PI * (degrees) / 180.0)
+
+#define XYRadianToDegrees(radian) (radian*180.0)/(M_PI)
+```
+
+#### 11.设置圆角
+
+```
+// 全部圆角设置
+#define XYViewBorderRadius(view, radius)view.layer.masksToBounds=YES;\
+view.layer.cornerRadius=radius;
+
+// 各个圆角设置
+#define XYViewCornerRadius(view, radius, rectCorner) CAShapeLayer *shapeLayer = [CAShapeLayer layer];\
+shapeLayer.path = [UIBezierPath bezierPathWithRoundedRect:view.bounds byRoundingCorners:rectCorner cornerRadii:CGSizeMake(radius, radius)].CGPath;\
+view.layer.mask = shapeLayer
+```
+
+#### 12属性快速声明
+
+```
+//property属性快速声明
+#define XYPropStatement(propertyModifier, propertyPointerType, propertyName)                  \
+@property(nonatomic, propertyModifier)propertyPointerType propertyName
+ 
+//属性方法快速声明
+#define XYPropStatementAndFuncStatement(propertyModifier,className, propertyPointerType, propertyName)                  \
+@property(nonatomic, propertyModifier)propertyPointerType propertyName;                                                 \
+- (className * (^) (propertyPointerType propertyName)) propertyName##Set;
+
+#define XYPropSetFuncImplementation(className, propertyPointerType, propertyName)                                       \
+- (className * (^) (propertyPointerType propertyName))propertyName##Set{                                                \
+return ^(propertyPointerType propertyName) {                                                                            \
+self.propertyName = propertyName;                                                                                       \
+return self;                                                                                                            \
+};                                                                                                                      \
+}
+```
+
+#### 12.GCD宏定义
+
+```
+//GCD - 一次性执行
+
+#define kDISPATCH_ONCE_BLOCK(onceBlock) static dispatch_once_t onceToken; dispatch_once(&onceToken, onceBlock)
+
+//GCD - 在Main线程上运行
+
+#define kDISPATCH_MAIN_THREAD(mainQueueBlock) dispatch_async(dispatch_get_main_queue(), mainQueueBlock)
+
+//GCD - 开启异步线程
+
+#define kDISPATCH_GLOBAL_QUEUE_DEFAULT(globalQueueBlock) dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0), globalQueueBlock)
+
+//GCD - 安全访问
+
+#ifndef dispatch_main_async_safe
+
+#define dispatch_main_async_safe(block)\
+
+if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(dispatch_get_main_queue())) ==0) {\
+
+block();\
+
+} else {\
+
+dispatch_async(dispatch_get_main_queue(), block);\
+
+}
+#endif
 ```
 
 
