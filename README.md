@@ -8,6 +8,10 @@
 
 ### 字符串时间转换  NSString+Date
 
+###字符串正则表达式  NSString+Regular
+
+###字符串加密解密  NSString+Encrypt
+
 ### 设备类型判断 
 
 ```
@@ -123,9 +127,6 @@ return theSharedInstance;\
 #### 2.屏幕宽高
 
 ```
-#define SCREEN_WIDTH   [UIScreen mainScreen].bounds.size.width
-#define SCREENH_HEIGHT [UIScreen mainScreen].bounds.size.height
-
 支持横屏可以用下面的宏:
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000 // 当前Xcode支持iOS8及以上
 
@@ -217,7 +218,7 @@ shapeLayer.path = [UIBezierPath bezierPathWithRoundedRect:view.bounds byRounding
 view.layer.mask = shapeLayer
 ```
 
-#### 12属性快速声明
+#### 12.属性快速声明
 
 ```
 //property属性快速声明
@@ -238,7 +239,7 @@ return self;                                                                    
 }
 ```
 
-#### 12.GCD宏定义
+#### 13.GCD宏定义
 
 ```
 //GCD - 一次性执行
@@ -258,15 +259,10 @@ return self;                                                                    
 #ifndef dispatch_main_async_safe
 
 #define dispatch_main_async_safe(block)\
-
 if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(dispatch_get_main_queue())) ==0) {\
-
 block();\
-
 } else {\
-
 dispatch_async(dispatch_get_main_queue(), block);\
-
 }
 #endif
 ```
@@ -339,6 +335,48 @@ dispatch_async(dispatch_get_main_queue(), block);\
         result = [(UINavigationController *)result topViewController];
     }
     return result;
+}
+```
+
+### button 图片文本相对位置
+
+```
+typedef enum : NSUInteger {
+    buttonModeTop,
+    buttonModeBottom,
+    buttonModeLeft,
+    buttonModeRight,
+} XYButtonMode;
+
+- (void)xy_locationAdjustWithMode:(XYButtonMode)buttonMode spacing:(CGFloat)spacing {
+    CGSize imageSize = [self imageRectForContentRect:self.frame].size;
+    UIFont *titleFont = self.titleLabel.font;
+    CGSize titleSize = [self.titleLabel.text sizeWithAttributes:@{NSFontAttributeName:titleFont}];
+    UIEdgeInsets titleInsets;
+    UIEdgeInsets imageInsets;
+    switch (buttonMode) {
+        case buttonModeTop:
+            titleInsets = UIEdgeInsetsMake((imageSize.height + titleSize.height + spacing)/2, -(imageSize.width), 0, 0);
+            imageInsets = UIEdgeInsetsMake(-(imageSize.height + titleSize.height + spacing)/2, 0, 0, -titleSize.width);
+            break;
+        case buttonModeBottom:
+            titleInsets = UIEdgeInsetsMake(-(imageSize.height + titleSize.height + spacing)/2,
+                                           -(imageSize.width), 0, 0);
+            imageInsets = UIEdgeInsetsMake((imageSize.height + titleSize.height + spacing)/2, 0, 0, -titleSize.width);
+            break;
+        case buttonModeLeft:
+            titleInsets = UIEdgeInsetsMake(0, 0, 0, -spacing);
+            imageInsets = UIEdgeInsetsMake(0, 0, 0, 0);
+            break;
+        case buttonModeRight:
+            titleInsets = UIEdgeInsetsMake(0, -(imageSize.width * 2), 0, 0);
+            imageInsets = UIEdgeInsetsMake(0, 0, 0, -(titleSize.width * 2 + spacing));
+            break;
+        default:
+            break;
+    }
+    self.titleEdgeInsets = titleInsets;
+    self.imageEdgeInsets = imageInsets;
 }
 ```
 
