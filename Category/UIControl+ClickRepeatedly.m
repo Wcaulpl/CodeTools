@@ -15,7 +15,7 @@ static const char *IgnoreClick;
 @implementation UIControl (ClickRepeatedly)
 
 - (void)setClickInterval:(NSTimeInterval)clickInterval{
-    objc_setAssociatedObject(self, &ClickIntervalKey, @(clickInterval), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, &ClickIntervalKey, @(clickInterval), OBJC_ASSOCIATION_ASSIGN);
 }
 
 - (NSTimeInterval)clickInterval{
@@ -25,7 +25,7 @@ static const char *IgnoreClick;
 
 - (void)setIgnoreClick:(BOOL)ignoreClick{
     self.enabled = !ignoreClick;
-    objc_setAssociatedObject(self, &IgnoreClick, @(ignoreClick), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, &IgnoreClick, @(ignoreClick), OBJC_ASSOCIATION_ASSIGN);
 }
 
 - (BOOL)ignoreClick{

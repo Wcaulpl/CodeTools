@@ -25,6 +25,8 @@ XYPropStatement(weak, XYAutoScrollLabel *, titleLabel);
 
 @implementation ViewController
 
+XYPropSetFuncImplementation(ViewController, XYAutoScrollLabel *, titleNav)
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.

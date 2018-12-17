@@ -13,13 +13,13 @@
 		0358868D21C3993E00516422 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0358868B21C3993E00516422 /* LaunchScreen.storyboard */; };
 		0358869021C3993E00516422 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0358868F21C3993E00516422 /* main.m */; };
 		035886A521C3998200516422 /* XYAutoScrollLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0358869821C3998200516422 /* XYAutoScrollLabel.m */; };
-		035886A621C3998200516422 /* HYCGetDateAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 0358869A21C3998200516422 /* HYCGetDateAttribute.m */; };
 		035886A721C3998200516422 /* NSString+Encrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = 0358869E21C3998200516422 /* NSString+Encrypt.m */; };
 		035886A821C3998200516422 /* UIControl+ClickRepeatedly.m in Sources */ = {isa = PBXBuildFile; fileRef = 0358869F21C3998200516422 /* UIControl+ClickRepeatedly.m */; };
 		035886A921C3998200516422 /* NSString+Date.m in Sources */ = {isa = PBXBuildFile; fileRef = 035886A221C3998200516422 /* NSString+Date.m */; };
 		035886AA21C3998200516422 /* NSString+Regular.m in Sources */ = {isa = PBXBuildFile; fileRef = 035886A421C3998200516422 /* NSString+Regular.m */; };
 		035886AE21C39B6C00516422 /* UIButton+XYExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 035886AC21C39B6C00516422 /* UIButton+XYExtension.m */; };
 		035886B021C39F3800516422 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 035886AF21C39F3800516422 /* Main.storyboard */; };
+		035886B321C3AAFC00516422 /* NSDate+Attribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 035886B221C3AAFC00516422 /* NSDate+Attribute.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,8 +34,6 @@
 		0358868F21C3993E00516422 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0358869721C3998200516422 /* XYAutoScrollLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XYAutoScrollLabel.h; sourceTree = "<group>"; };
 		0358869821C3998200516422 /* XYAutoScrollLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XYAutoScrollLabel.m; sourceTree = "<group>"; };
-		0358869A21C3998200516422 /* HYCGetDateAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYCGetDateAttribute.m; sourceTree = "<group>"; };
-		0358869B21C3998200516422 /* HYCGetDateAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYCGetDateAttribute.h; sourceTree = "<group>"; };
 		0358869D21C3998200516422 /* NSString+Date.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Date.h"; sourceTree = "<group>"; };
 		0358869E21C3998200516422 /* NSString+Encrypt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Encrypt.m"; sourceTree = "<group>"; };
 		0358869F21C3998200516422 /* UIControl+ClickRepeatedly.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+ClickRepeatedly.m"; sourceTree = "<group>"; };
@@ -48,6 +46,8 @@
 		035886AC21C39B6C00516422 /* UIButton+XYExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+XYExtension.m"; sourceTree = "<group>"; };
 		035886AD21C39B6C00516422 /* UIButton+XYExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+XYExtension.h"; sourceTree = "<group>"; };
 		035886AF21C39F3800516422 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		035886B121C3AAFC00516422 /* NSDate+Attribute.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDate+Attribute.h"; sourceTree = "<group>"; };
+		035886B221C3AAFC00516422 /* NSDate+Attribute.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Attribute.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,7 +81,6 @@
 			isa = PBXGroup;
 			children = (
 				0358869C21C3998200516422 /* Category */,
-				0358869921C3998200516422 /* HYCGetDateAttribute */,
 				0358869621C3998200516422 /* XYAutoScrollLabel */,
 				0358868021C3993C00516422 /* AppDelegate.h */,
 				0358868121C3993C00516422 /* AppDelegate.m */,
@@ -107,19 +106,11 @@
 			path = ../../XYAutoScrollLabel;
 			sourceTree = "<group>";
 		};
-		0358869921C3998200516422 /* HYCGetDateAttribute */ = {
-			isa = PBXGroup;
-			children = (
-				0358869A21C3998200516422 /* HYCGetDateAttribute.m */,
-				0358869B21C3998200516422 /* HYCGetDateAttribute.h */,
-			);
-			name = HYCGetDateAttribute;
-			path = ../../HYCGetDateAttribute;
-			sourceTree = "<group>";
-		};
 		0358869C21C3998200516422 /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				035886B121C3AAFC00516422 /* NSDate+Attribute.h */,
+				035886B221C3AAFC00516422 /* NSDate+Attribute.m */,
 				0358869D21C3998200516422 /* NSString+Date.h */,
 				035886A221C3998200516422 /* NSString+Date.m */,
 				035886A021C3998200516422 /* NSString+Regular.h */,
@@ -205,7 +196,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				035886A621C3998200516422 /* HYCGetDateAttribute.m in Sources */,
 				035886AA21C3998200516422 /* NSString+Regular.m in Sources */,
 				0358868521C3993C00516422 /* ViewController.m in Sources */,
 				0358869021C3993E00516422 /* main.m in Sources */,
@@ -213,6 +203,7 @@
 				035886A921C3998200516422 /* NSString+Date.m in Sources */,
 				035886A721C3998200516422 /* NSString+Encrypt.m in Sources */,
 				035886A821C3998200516422 /* UIControl+ClickRepeatedly.m in Sources */,
+				035886B321C3AAFC00516422 /* NSDate+Attribute.m in Sources */,
 				0358868221C3993C00516422 /* AppDelegate.m in Sources */,
 				035886A521C3998200516422 /* XYAutoScrollLabel.m in Sources */,
 			);
