@@ -4,13 +4,13 @@
 
 ### 滚动label  XYAutoScrollLabel
 
-### 日历数据模型 HYCGetDateAttribute
+### 日历数据模型 XYDateAttribute 或 NSDate+XYAttribute
 
 ### 字符串时间转换  NSString+Date
 
-###字符串正则表达式  NSString+Regular
+### 字符串正则表达式  NSString+Regular
 
-###字符串加密解密  NSString+Encrypt
+### 字符串加密解密  NSString+Encrypt
 
 ### 设备类型判断 
 
