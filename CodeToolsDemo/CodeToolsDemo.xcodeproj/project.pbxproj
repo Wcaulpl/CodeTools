@@ -19,7 +19,8 @@
 		035886AA21C3998200516422 /* NSString+Regular.m in Sources */ = {isa = PBXBuildFile; fileRef = 035886A421C3998200516422 /* NSString+Regular.m */; };
 		035886AE21C39B6C00516422 /* UIButton+XYExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 035886AC21C39B6C00516422 /* UIButton+XYExtension.m */; };
 		035886B021C39F3800516422 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 035886AF21C39F3800516422 /* Main.storyboard */; };
-		035886B321C3AAFC00516422 /* NSDate+Attribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 035886B221C3AAFC00516422 /* NSDate+Attribute.m */; };
+		036A5ECE21C74EE000A0610F /* XYDateAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 036A5ECD21C74EE000A0610F /* XYDateAttribute.m */; };
+		036A5ED121C74F5300A0610F /* NSDate+XYAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 036A5ED021C74F5300A0610F /* NSDate+XYAttribute.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,8 +47,10 @@
 		035886AC21C39B6C00516422 /* UIButton+XYExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+XYExtension.m"; sourceTree = "<group>"; };
 		035886AD21C39B6C00516422 /* UIButton+XYExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+XYExtension.h"; sourceTree = "<group>"; };
 		035886AF21C39F3800516422 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		035886B121C3AAFC00516422 /* NSDate+Attribute.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDate+Attribute.h"; sourceTree = "<group>"; };
-		035886B221C3AAFC00516422 /* NSDate+Attribute.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Attribute.m"; sourceTree = "<group>"; };
+		036A5ECC21C74EE000A0610F /* XYDateAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XYDateAttribute.h; sourceTree = "<group>"; };
+		036A5ECD21C74EE000A0610F /* XYDateAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XYDateAttribute.m; sourceTree = "<group>"; };
+		036A5ECF21C74F5300A0610F /* NSDate+XYAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+XYAttribute.h"; sourceTree = "<group>"; };
+		036A5ED021C74F5300A0610F /* NSDate+XYAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+XYAttribute.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +83,7 @@
 		0358867F21C3993C00516422 /* CodeToolsDemo */ = {
 			isa = PBXGroup;
 			children = (
+				036A5ECB21C74EE000A0610F /* XYDateAttribute */,
 				0358869C21C3998200516422 /* Category */,
 				0358869621C3998200516422 /* XYAutoScrollLabel */,
 				0358868021C3993C00516422 /* AppDelegate.h */,
@@ -109,8 +113,8 @@
 		0358869C21C3998200516422 /* Category */ = {
 			isa = PBXGroup;
 			children = (
-				035886B121C3AAFC00516422 /* NSDate+Attribute.h */,
-				035886B221C3AAFC00516422 /* NSDate+Attribute.m */,
+				036A5ECF21C74F5300A0610F /* NSDate+XYAttribute.h */,
+				036A5ED021C74F5300A0610F /* NSDate+XYAttribute.m */,
 				0358869D21C3998200516422 /* NSString+Date.h */,
 				035886A221C3998200516422 /* NSString+Date.m */,
 				035886A021C3998200516422 /* NSString+Regular.h */,
@@ -124,6 +128,16 @@
 			);
 			name = Category;
 			path = ../../Category;
+			sourceTree = "<group>";
+		};
+		036A5ECB21C74EE000A0610F /* XYDateAttribute */ = {
+			isa = PBXGroup;
+			children = (
+				036A5ECC21C74EE000A0610F /* XYDateAttribute.h */,
+				036A5ECD21C74EE000A0610F /* XYDateAttribute.m */,
+			);
+			name = XYDateAttribute;
+			path = ../../XYDateAttribute;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -203,9 +217,10 @@
 				035886A921C3998200516422 /* NSString+Date.m in Sources */,
 				035886A721C3998200516422 /* NSString+Encrypt.m in Sources */,
 				035886A821C3998200516422 /* UIControl+ClickRepeatedly.m in Sources */,
-				035886B321C3AAFC00516422 /* NSDate+Attribute.m in Sources */,
 				0358868221C3993C00516422 /* AppDelegate.m in Sources */,
 				035886A521C3998200516422 /* XYAutoScrollLabel.m in Sources */,
+				036A5ED121C74F5300A0610F /* NSDate+XYAttribute.m in Sources */,
+				036A5ECE21C74EE000A0610F /* XYDateAttribute.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

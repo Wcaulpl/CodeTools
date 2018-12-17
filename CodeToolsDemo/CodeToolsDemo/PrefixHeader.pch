@@ -13,9 +13,11 @@
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 // $(SRCROOT) 工程文件夹 根目录
 #import "XYAutoScrollLabel.h"
+#import "XYDateAttribute.h"
 #import "UIButton+XYExtension.h"
 #import "UIControl+ClickRepeatedly.h"
 #import "NSString+Encrypt.h"
+#import "NSDate+XYAttribute.h"
 
 /*********************************************************************
  * 单例宏

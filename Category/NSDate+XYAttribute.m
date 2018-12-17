@@ -1,183 +1,157 @@
 //
-//  NSDate+Attribute.m
+//  NSDate+XYAttribute.m
 //  CodeToolsDemo
 //
 //  Created by CETzxy on 2018/12/14.
 //  Copyright © 2018年 Wcaulpl. All rights reserved.
 //
 
-#import "NSDate+Attribute.h"
-#import <objc/runtime.h>
+#import "NSDate+XYAttribute.h"
+
+typedef enum : NSUInteger {
+    XYDateModeChinese,
+    XYDateModeEnglish,
+} XYDateMode;
 
 
-
-static const char *xy_isTodayKey;//是不是今天
-static const char *xy_chineseWeekKey;//中文星期
-static const char *xy_englishWeekKey;//英文日期
-static const char *xy_dateKey;//时间戳
-static const char *xy_glYearsKey;//公历年
-static const char *xy_glMonthKey;//公历月
-static const char *xy_glDayKey;//公历日
-
-static const char *xy_nlYearsKey;//农历年
-static const char *xy_nlMonthKey;//农历月
-static const char *xy_nlDayKey;//农历日
-
-static const char *xy_SolarTermsKey;//节气
-static const char *xy_glHolidayKey;//公历节日
-static const char *xy_nlHolidayKey;//农历节日
-
-@implementation NSDate (Attribute)
-
-
-- (NSInteger)year{
-    return [self getParaFromDate:self Period:NSCalendarUnitYear];
-}
-
-- (NSInteger)month{
-    return [self getParaFromDate:self Period:NSCalendarUnitMonth];
-}
-
-- (NSInteger)day{
-    return [self getParaFromDate:self Period:NSCalendarUnitDay];
-}
-
-- (NSInteger)getParaFromDate: (NSDate *)date Period:(NSUInteger)period{
-    NSCalendar *calendar = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
-    NSDateComponents *dateComponents = [calendar components:period fromDate:date];
-    switch (period) {
-        case NSCalendarUnitYear:
-            return [dateComponents year];
-        case NSCalendarUnitMonth:
-            return [dateComponents month];
-        case NSCalendarUnitDay:
-            return [dateComponents day];
-        default:
-            return [dateComponents day];
-    }
-}
-
-#pragma mark --------- set get ----------
-//xy_isToday
-- (void)setXy_isToday:(BOOL)xy_isToday {
-    objc_setAssociatedObject(self, &xy_isTodayKey, @(xy_isToday), OBJC_ASSOCIATION_ASSIGN);
-}
+@implementation NSDate (XYAttribute)
 
 - (BOOL)xy_isToday {
-    return [objc_getAssociatedObject(self, &xy_isTodayKey) boolValue];
+    return [[NSCalendar currentCalendar] isDateInToday:self];
 }
 
-//xy_chineseWeek
-- (void)setXy_chineseWeek:(NSString * _Nonnull)xy_chineseWeek {
-    objc_setAssociatedObject(self, &xy_chineseWeekKey, xy_chineseWeek, OBJC_ASSOCIATION_COPY_NONATOMIC);
+- (NSTimeInterval)xy_timeInterval {
+    return [self timeIntervalSince1970];
 }
 
-- (NSString *)xy_chineseWeek {
-    return [objc_getAssociatedObject(self, &xy_chineseWeekKey) stringValue];
+- (NSInteger)getParaWithPeriod:(NSUInteger)period dateMode:(XYDateMode)dateMode {
+    NSCalendarIdentifier identifier;
+    
+    if (dateMode == XYDateModeEnglish) {
+        identifier = NSCalendarIdentifierGregorian;
+    } else {
+        identifier = NSCalendarIdentifierChinese;
+    }
+    NSCalendar *calendar = [NSCalendar calendarWithIdentifier:identifier];
+    return [calendar component:period fromDate:self];
 }
 
-//xy_englishWeek
-- (void)setXy_englishWeek:(NSString * _Nonnull)xy_englishWeek {
-    objc_setAssociatedObject(self, &xy_englishWeekKey, xy_englishWeek, OBJC_ASSOCIATION_COPY_NONATOMIC);
+- (NSString *)getWeekWithDateMode:(XYDateMode)dateMode {
+    NSArray *weekdays = [NSArray arrayWithObjects: [NSNull null], @"周日", @"周一", @"周二", @"周三", @"周四", @"周五", @"周六", nil];
+    if (dateMode == XYDateModeEnglish) {
+        weekdays = [NSArray arrayWithObjects: [NSNull null], @"Sun", @"Mon", @"Tue", @"Wed", @"Thu", @"Fri", @"Sat", nil];
+    }
+    
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSDateComponents *weekdayComponents = [gregorian components:NSCalendarUnitWeekday fromDate:self];
+    
+    return [weekdays objectAtIndex:weekdayComponents.weekday];
+}
+
+
+
+#pragma mark ------- 公历时间 --------
+- (NSInteger)xy_year {
+    return [self getParaWithPeriod:NSCalendarUnitYear dateMode:XYDateModeEnglish];
+}
+
+- (NSInteger)xy_month {
+    return [self getParaWithPeriod:NSCalendarUnitMonth dateMode:XYDateModeEnglish];
+}
+
+- (NSInteger)xy_day {
+    return [self getParaWithPeriod:NSCalendarUnitDay dateMode:XYDateModeEnglish];
 }
 
 - (NSString *)xy_englishWeek {
-    return [objc_getAssociatedObject(self, &xy_englishWeekKey) stringValue];
+    return [self getWeekWithDateMode:(XYDateModeEnglish)];
 }
 
-//xy_date
-- (void)setXy_date:(NSString * _Nonnull)xy_date {
-    objc_setAssociatedObject(self, &xy_dateKey, xy_date, OBJC_ASSOCIATION_COPY_NONATOMIC);
+- (NSString *)xy_holiday {
+    NSDictionary *holiDays = @{@"01-01":@"元旦节", @"02-14":@"情人节", @"03-08":@"妇女节", @"05-01":@"劳动节", @"06-01":@"儿童节", @"08-01":@"建军节", @"09-10":@"教师节", @"10-01":@"国庆节", @"10-24":@"程序员日", @"11-01":@"植树节", @"11-11":@"光棍节", @"12-25":@"圣诞节"};
+    NSString *key = [NSString stringWithFormat:@"%02ld-%02ld", self.xy_month, self.xy_day];
+    return holiDays[key];
 }
 
-- (NSString *)xy_date {
-    return [objc_getAssociatedObject(self, &xy_dateKey) stringValue];
-}
-
-static const char *xy_glYearsKey;//公历年
-- (void)setXy_glYears:(NSString * _Nonnull)xy_glYears {
-    objc_setAssociatedObject(self, &xy_glYearsKey, xy_glYears, OBJC_ASSOCIATION_COPY_NONATOMIC);
-}
-
-- (NSString *)xy_glYears {
-    return [objc_getAssociatedObject(self, &xy_glYearsKey) stringValue];
-}
-
-//xy_glMonth
-- (void)setXy_glMonth:(NSString * _Nonnull)xy_glMonth {
-    objc_setAssociatedObject(self, &xy_glMonthKey, xy_glMonth, OBJC_ASSOCIATION_COPY_NONATOMIC);
-}
-
-- (NSString *)xy_glMonth {
-    return [objc_getAssociatedObject(self, &xy_glMonthKey) stringValue];
-}
-
-//xy_glDay
-- (void)setXy_glDay:(NSString * _Nonnull)xy_glDay {
-    objc_setAssociatedObject(self, &xy_glDayKey, xy_glDay, OBJC_ASSOCIATION_COPY_NONATOMIC);
-}
-
-- (NSString *)xy_glDay {
-    return [objc_getAssociatedObject(self, &xy_glDayKey) stringValue];
+#pragma mark --------- 农历时间 ----------
+//xy_chineseWeek
+- (NSString *)xy_chineseWeek {
+    return [self getWeekWithDateMode:(XYDateModeChinese)];
 }
 
 //xy_nlYears
-- (void)setXy_nlYears:(NSString * _Nonnull)xy_nlYears {
-    objc_setAssociatedObject(self, &xy_nlYearsKey, xy_nlYears, OBJC_ASSOCIATION_COPY_NONATOMIC);
-}
-
-- (NSString *)xy_nlYears {
-    return [objc_getAssociatedObject(self, &xy_nlYearsKey) stringValue];
+- (NSString *)xy_nlYear {
+    NSArray *datelist = [NSArray arrayWithObjects:[NSNull null],
+                             @"甲子",   @"乙丑",  @"丙寅",  @"丁卯",  @"戊辰",  @"己巳",  @"庚午",  @"辛未",  @"壬申",  @"癸酉",
+                             @"甲戌",   @"乙亥",  @"丙子",  @"丁丑",  @"戊寅",  @"己卯",  @"庚辰",  @"辛己",  @"壬午",  @"癸未",
+                             @"甲申",   @"乙酉",  @"丙戌",  @"丁亥",  @"戊子",  @"己丑",  @"庚寅",  @"辛卯",  @"壬辰",  @"癸巳",
+                             @"甲午",   @"乙未",  @"丙申",  @"丁酉",  @"戊戌",  @"己亥",  @"庚子",  @"辛丑",  @"壬寅",  @"癸丑",
+                             @"甲辰",   @"乙巳",  @"丙午",  @"丁未",  @"戊申",  @"己酉",  @"庚戌",  @"辛亥",  @"壬子",  @"癸丑",
+                             @"甲寅",   @"乙卯",  @"丙辰",  @"丁巳",  @"戊午",  @"己未",  @"庚申",  @"辛酉",  @"壬戌",  @"癸亥", nil];
+    NSInteger index = [self getParaWithPeriod:NSCalendarUnitYear dateMode:XYDateModeChinese];
+    return datelist[index];
 }
 
 //xy_nlMonth
-- (void)setXy_nlMonth:(NSString * _Nonnull)xy_nlMonth {
-    objc_setAssociatedObject(self, &xy_nlMonthKey, xy_nlMonth, OBJC_ASSOCIATION_COPY_NONATOMIC);
-}
-
 - (NSString *)xy_nlMonth {
-    return [objc_getAssociatedObject(self, &xy_nlMonthKey) stringValue];
+    NSArray *datelist = [NSArray arrayWithObjects:[NSNull null],
+                         @"正月", @"二月", @"三月", @"四月", @"五月", @"六月", @"七月", @"八月",
+                         @"九月", @"十月", @"冬月", @"腊月", nil];
+    NSInteger index = [self getParaWithPeriod:NSCalendarUnitMonth dateMode:XYDateModeChinese];
+    return datelist[index];
 }
 
 //xy_nlDay
-- (void)setXy_nlDay:(NSString * _Nonnull)xy_nlDay {
-    objc_setAssociatedObject(self, &xy_nlDayKey, xy_nlDay, OBJC_ASSOCIATION_COPY_NONATOMIC);
-}
-
 - (NSString *)xy_nlDay {
-    return [objc_getAssociatedObject(self, &xy_nlDayKey) stringValue];
-}
-
-//xy_SolarTerms
-- (void)setXy_SolarTerms:(NSString * _Nonnull)xy_SolarTerms {
-    objc_setAssociatedObject(self, &xy_SolarTermsKey, xy_SolarTerms, OBJC_ASSOCIATION_COPY_NONATOMIC);
-}
-
-- (NSString *)xy_SolarTerms {
-    return [objc_getAssociatedObject(self, &xy_SolarTermsKey) stringValue];
-}
-
-//xy_glHoliday
-- (void)setXy_glHoliday:(NSString * _Nonnull)xy_glHoliday {
-    objc_setAssociatedObject(self, &xy_glHolidayKey, xy_glHoliday, OBJC_ASSOCIATION_COPY_NONATOMIC);
-}
-
-- (NSString *)xy_glHoliday {
-    return [objc_getAssociatedObject(self, &xy_glHolidayKey) stringValue];
+    NSArray *datelist = [NSArray arrayWithObjects:[NSNull null],
+                            @"初一", @"初二", @"初三", @"初四", @"初五", @"初六", @"初七", @"初八", @"初九", @"初十",
+                            @"十一", @"十二", @"十三", @"十四", @"十五", @"十六", @"十七", @"十八", @"十九", @"二十",
+                            @"廿一", @"廿二", @"廿三", @"廿四", @"廿五", @"廿六", @"廿七", @"廿八", @"廿九", @"三十",  nil];
+    NSInteger index = [self getParaWithPeriod:NSCalendarUnitDay dateMode:XYDateModeChinese];
+    return datelist[index];
 }
 
 //xy_nlHoliday
-- (void)setXy_nlHoliday:(NSString * _Nonnull)xy_nlHoliday {
-    objc_setAssociatedObject(self, &xy_nlHolidayKey, xy_nlHoliday, OBJC_ASSOCIATION_COPY_NONATOMIC);
+- (NSString *)xy_nlHoliday {
+    NSDictionary *holiDays = @{@"01-01":@"春节", @"01-15":@"元宵", @"05-05":@"端午", @"07-07":@"七夕", @"07-15":@"中元", @"08-15":@"中秋", @"09-09":@"重阳", @"12-08":@"腊八", @"12-24":@"小年"};
+    NSString *key = [NSString stringWithFormat:@"%02ld-%02ld", [self getParaWithPeriod:NSCalendarUnitMonth dateMode:XYDateModeChinese], [self getParaWithPeriod:NSCalendarUnitDay dateMode:XYDateModeChinese]];
+    return holiDays[key];
 }
 
-- (NSString *)xy_nlHoliday {
-    return [objc_getAssociatedObject(self, &xy_nlHolidayKey) stringValue];
+
+
+//xy_SolarTerms
+- (NSString *)xy_solarTerms {
+    //节气 //[NSNull null],
+    NSArray *chineseDaysjieqi=[NSArray arrayWithObjects:
+                               @"小寒", @"大寒", @"立春", @"雨水", @"惊蛰", @"春分",
+                               @"清明", @"谷雨", @"立夏", @"小满", @"芒种", @"夏至",
+                               @"小暑", @"大暑", @"立秋", @"处暑", @"白露", @"秋分",
+                               @"寒露", @"霜降", @"立冬", @"小雪", @"大雪", @"冬至", nil];
+    long array_index = (self.xy_year - start_year)*12+self.xy_month -1;
+    int64_t flag = gLunarHolDay[array_index];
+    int64_t day;
+    
+    if(self.xy_day <15)
+        day= 15 - ((flag>>4)&0x0f);
+    else
+        day = ((flag)&0x0f)+15;
+    
+    long index = -1;
+    
+    if(self.xy_day == day){
+        index = (self.xy_month-1)*2 + (self.xy_day>15? 1: 0);
+    }
+    
+    if ( index >= 0  && index <30 ) {
+        return [chineseDaysjieqi objectAtIndex:index];
+    }
+    return nil;
 }
 
 #pragma mark --------- date ----------
-const  int START_YEAR =1901;
-const  int END_YEAR   =2050;
+const  int start_year = 1901;
+const  int end_year = 2050;
 static int32_t gLunarHolDay[]= {
     0X96, 0XB4, 0X96, 0XA6, 0X97, 0X97, 0X78, 0X79, 0X79, 0X69, 0X78, 0X77,   //1901
     0X96, 0XA4, 0X96, 0X96, 0X97, 0X87, 0X79, 0X79, 0X79, 0X69, 0X78, 0X78,   //1902
@@ -331,114 +305,5 @@ static int32_t gLunarHolDay[]= {
     0XA5, 0XC3, 0XA5, 0XB5, 0XA6, 0XA6, 0X87, 0X88, 0X78, 0X78, 0X87, 0X87    //2050
     
 };
-
--(void)getChineseCalendarWithDate:(NSString *)dateStr{
-    
-    NSArray *chineseYears = [NSArray arrayWithObjects:
-                             @"甲子", @"乙丑", @"丙寅", @"丁卯",  @"戊辰",  @"己巳",  @"庚午",  @"辛未",  @"壬申",  @"癸酉",
-                             @"甲戌",   @"乙亥",  @"丙子",  @"丁丑", @"戊寅",   @"己卯",  @"庚辰",  @"辛己",  @"壬午",  @"癸未",
-                             @"甲申",   @"乙酉",  @"丙戌",  @"丁亥",  @"戊子",  @"己丑",  @"庚寅",  @"辛卯",  @"壬辰",  @"癸巳",
-                             @"甲午",   @"乙未",  @"丙申",  @"丁酉",  @"戊戌",  @"己亥",  @"庚子",  @"辛丑",  @"壬寅",  @"癸丑",
-                             @"甲辰",   @"乙巳",  @"丙午",  @"丁未",  @"戊申",  @"己酉",  @"庚戌",  @"辛亥",  @"壬子",  @"癸丑",
-                             @"甲寅",   @"乙卯",  @"丙辰",  @"丁巳",  @"戊午",  @"己未",  @"庚申",  @"辛酉",  @"壬戌",  @"癸亥", nil];
-    
-    NSArray *chineseMonths=[NSArray arrayWithObjects:
-                            @"正月", @"二月", @"三月", @"四月", @"五月", @"六月", @"七月", @"八月",
-                            @"九月", @"十月", @"冬月", @"腊月", nil];
-    
-    
-    NSArray *chineseDays=[NSArray arrayWithObjects:
-                          @"初一", @"初二", @"初三", @"初四", @"初五", @"初六", @"初七", @"初八", @"初九", @"初十",
-                          @"十一", @"十二", @"十三", @"十四", @"十五", @"十六", @"十七", @"十八", @"十九", @"二十",
-                          @"廿一", @"廿二", @"廿三", @"廿四", @"廿五", @"廿六", @"廿七", @"廿八", @"廿九", @"三十",  nil];
-    
-    
-    NSCalendar *localeCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierChinese];
-    
-    unsigned unitFlags = NSCalendarUnitYear | NSCalendarUnitMonth |  NSCalendarUnitDay;
-    NSString *str = dateStr;
-    NSArray *arrayTimeYMD = [dateStr componentsSeparatedByString:@"-"];
-    if (arrayTimeYMD.count != 3) return;
-    
-    self.xy_glYears = arrayTimeYMD[0];
-    self.xy_glMonth = [NSString stringWithFormat:@"%02ld",[arrayTimeYMD[1] integerValue]];
-    self.xy_glDay = [NSString stringWithFormat:@"%02ld",[arrayTimeYMD[2] integerValue]];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-    NSDate *date = [dateFormatter dateFromString:str];
-    self.xy_date = [[NSNumber numberWithDouble:[date timeIntervalSince1970]] stringValue];
-    NSDateFormatter  *dateformatterEEE=[[NSDateFormatter alloc] init];
-    [dateformatterEEE setDateFormat:@"EEE"];
-    self.xy_englishWeek = [dateformatterEEE stringFromDate:date];
-    
-    self.xy_chineseWeek = [self.xy_englishWeek isEqualToString:@"Mon"]?@"星期一":
-    [self.xy_englishWeek isEqualToString:@"Tue"]?@"星期二":
-    [self.xy_englishWeek isEqualToString:@"Wed"]?@"星期三":
-    [self.xy_englishWeek isEqualToString:@"Thu"]?@"星期四":
-    [self.xy_englishWeek isEqualToString:@"Fri"]?@"星期五":
-    [self.xy_englishWeek isEqualToString:@"Sat"]?@"星期六":
-    [self.xy_englishWeek isEqualToString:@"Sun"]?@"星期日":
-    @"";
-    self.xy_isToday = [[dateFormatter stringFromDate:[NSDate date]] isEqualToString:[NSString stringWithFormat:@"%@-%@-%@",self.xy_glYears,self.xy_glMonth,self.xy_glDay]] ? YES :NO;
-    if (!date) return;
-    
-    NSDateComponents *localeComp = [localeCalendar components:unitFlags fromDate:date];
-    
-    NSString *y_str = [chineseYears objectAtIndex:localeComp.year-1];
-    NSString *m_str = [chineseMonths objectAtIndex:localeComp.month-1];
-    NSString *d_str = [chineseDays objectAtIndex:localeComp.day-1];
-    
-    //NSString *chineseCal_str =[NSString stringWithFormat: @"%@_%@_%@",y_str,m_str,d_str];
-    NSDictionary *chineseHoliDay = @{@"01-01":@"春节", @"01-15":@"元宵", @"05-05":@"端午", @"07-07":@"七夕", @"07-15":@"中元", @"08-15":@"中秋", @"09-09":@"重阳", @"12-08":@"腊八", @"12-24":@"小年"};
-
-    NSDictionary *lunDic = @{@"01-01":@"元旦节", @"02-14":@"情人节", @"03-08":@"妇女节", @"05-01":@"劳动节", @"06-01":@"儿童节", @"08-01":@"建军节", @"09-10":@"教师节", @"10-01":@"国庆节", @"10-24":@"程序员日", @"11-01":@"植树节", @"11-11":@"光棍节", @"12-25":@"圣诞节"};
-    
-    if (chineseHoliDay[[NSString stringWithFormat:@"%02ld-%02ld",localeComp.month,localeComp.day]]) {
-        self.xy_glHoliday = chineseHoliDay[[NSString stringWithFormat:@"%02ld-%02ld",localeComp.month,localeComp.day]];
-    }
-    
-    
-    if (lunDic[[NSString stringWithFormat:@"%@-%@",self.xy_glMonth,self.xy_glDay]]) {
-        self.xy_nlHoliday = lunDic[[NSString stringWithFormat:@"%@-%@",self.xy_glMonth,self.xy_glDay]];
-    }
-    
-    
-    //  ________________________________________________________________________________________________self.xy_________________________________________________________________________________
-    //节气
-    NSArray *chineseDaysjieqi=[NSArray arrayWithObjects:
-                               @"小寒", @"大寒", @"立春", @"雨水", @"惊蛰", @"春分",
-                               
-                               @"清明", @"谷雨", @"立夏", @"小满", @"芒种", @"夏至",
-                               
-                               @"小暑", @"大暑", @"立秋", @"处暑", @"白露", @"秋分",
-                               
-                               @"寒露", @"霜降", @"立冬", @"小雪", @"大雪", @"冬至", nil];
-    
-    
-    int array_index = ([self.xy_glYears intValue] - START_YEAR)*12+[self.xy_glMonth intValue] -1 ;
-    
-    
-    int64_t flag = gLunarHolDay[array_index];
-    int64_t day;
-    
-    if([self.xy_glDay intValue] <15)
-        day= 15 - ((flag>>4)&0x0f);
-    else
-        day = ((flag)&0x0f)+15;
-    
-    int index = -1;
-    
-    if([self.xy_glDay intValue] == day){
-        index = ([self.xy_glMonth intValue]-1) *2 + ([self.xy_glDay intValue]>15? 1: 0);
-    }
-    
-    if ( index >= 0  && index < [chineseDays count] ) {
-        self.xy_SolarTerms = [chineseDaysjieqi objectAtIndex:index];
-    }
-    
-    self.xy_nlYears = y_str;
-    self.xy_nlMonth = m_str;
-    self.xy_nlDay = d_str;
-}
 
 @end

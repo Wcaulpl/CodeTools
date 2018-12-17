@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "XYDateAttribute.h"
 
 @interface ViewController ()
 
@@ -61,8 +62,31 @@ XYPropSetFuncImplementation(ViewController, XYAutoScrollLabel *, titleNav)
     //    button1.hw_locationAdjust(buttonMode: .Left, spacing: 10)
     //    button2.hw_locationAdjust(buttonMode: .Right, spacing: 10)
     //    button3.hw_locationAdjust(buttonMode: .Bottom, spacing: 10)
+    [self getDate];
+}
+
+- (void)getDate {
+    XYDateAttribute *datea = [[XYDateAttribute alloc] init];
+    datea.xy_Date = @"2018-12-17";
+    NSDate *date = [NSDate date];
+    XYLog(@"是否今天: %d == %d ", datea.HYC_isToday ,date.xy_isToday);
+    XYLog(@"英文星期: %@ == %@",datea.HYC_EnglishWeek, date.xy_englishWeek);//
+    XYLog(@"时间戳: %@ == %f",datea.HYC_Date, date.xy_timeInterval);//
+    XYLog(@"公历年: %@ == %ld",datea.HYC_GLYears, date.xy_year);//
+    XYLog(@"公历月: %@ == %ld",datea.HYC_GLMonth, date.xy_month);//
+    XYLog(@"公历日: %@ == %ld",datea.HYC_GLDay, date.xy_day);//
     
     
+    XYLog(@"农历年: %@ == %@",datea.HYC_NLYears, date.xy_nlYear);//
+    XYLog(@"农历月: %@ == %@",datea.HYC_NLMonth, date.xy_nlMonth);//
+    XYLog(@"农历日: %@ == %@",datea.HYC_NLDay, date.xy_nlDay);//
+    XYLog(@"中文星期: %@ == %@", datea.HYC_ChineseWeek, date.xy_chineseWeek);//
+
+    
+    XYLog(@"节气: %@ == %@",datea.HYC_SolarTerms, date.xy_solarTerms);//
+    XYLog(@"公历节日: %@ == %@",datea.HYC_GLHoliday, date.xy_holiday);//
+    XYLog(@"农历节日: %@ == %@",datea.HYC_NLHoliday, date.xy_nlHoliday);//
+
 }
 
 - (IBAction)changeNav:(UIButton *)sender {
