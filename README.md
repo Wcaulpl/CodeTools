@@ -380,5 +380,167 @@ typedef enum : NSUInteger {
 }
 ```
 
+###打包动态库和静态库
+
+> #### [打包动态库和静态库](https://www.jianshu.com/p/cebe06c9f275)
+>
+> 打包注意，真机下打包的静态库只能在真机下运行，模拟器下打包的静态库只能在模拟器下运行
+>
+> 1. 打包.a静态库
+>
+>    ![图片](https://github.com/Wcaulpl/CodeTools/静态库/10760632-19198ca83dd37d16.png)
+>
+>    在.h和.m中写入方法 ，按command+b编译成功
+>
+>    ![10760632-18596cc2c3c6c1b8](https://github.com/Wcaulpl/CodeTools/静态库/10760632-18596cc2c3c6c1b8.png)
+>
+>    鼠标右键点击，点击Show in Finder 查看静态库 
+>
+>    ![10760632-22453f8f4f3124a4](https://github.com/Wcaulpl/CodeTools/静态库/10760632-22453f8f4f3124a4.png)
+>
+>    .a文件拖进项目使用
+>
+> 2. 打包.framework静态库
+>
+>    ![10760632-4f85bcb2fc6462a0](https://github.com/Wcaulpl/CodeTools/静态库/10760632-4f85bcb2fc6462a0.png)
+>
+>    添加类方法，并把类方法的头文件导入到静态库.h里面
+>
+>    .framework默认是动态库
+>
+>    ![10760632-3e1c83a458e82ddc](https://github.com/Wcaulpl/CodeTools/静态库/10760632-3e1c83a458e82ddc.png)
+>
+>    把mach-o 选到 static library就是静态
+>
+>    ![10760632-90d52e733ae06c85](https://github.com/Wcaulpl/CodeTools/静态库/10760632-90d52e733ae06c85.png)
+>
+>    把类的.h拖到这里公开 然后command+b编译成功
+>
+>    ![10760632-2b80fc3503e90583](https://github.com/Wcaulpl/CodeTools/静态库/10760632-2b80fc3503e90583.png)
+>
+> 3. framework动态库 把mach-o 默认是动态库 使用方法跟.framework一样，区别
+>
+>    ![10760632-c702cc61704f57f2](https://github.com/Wcaulpl/CodeTools/静态库/10760632-c702cc61704f57f2.png)
+>
+>    使用时需要在这里添加静态库
+>
+> 4. 真机模拟器两用包
+>
+>     将真机包和模拟器包使用命令行合到一起，命令格式为lipo -create dic/xxx.framework/xxx dic2/xxx.framework/xxx -output xxx,其中dic和dic2代表生成framework的两个目录，一个是iphones一个是iphonesimulator，而xxx.framework其实就是我们在build过后生成的framework包了，最后output后边的xxx 其实就是最后合成生成的文件，最后将文件覆盖到iphones里边，就会替换原有的xxx文件，具体目录结构如图   ![未命名图片-1024x218](https://github.com/Wcaulpl/CodeTools/静态库/未命名图片-1024x218.png)上图红色箭头所指部分为生成合成文件将要覆盖的文件，覆盖完成后可以直接将Release-iphones里边将framework文件拿来直接用了，可以用于真机和模拟器的framework动态包就出世了。
+>
+>
+>
+>     用法和其他framework用法完全一致，注意事项就是在引用生成的framework的同时需要在工程中引入生成的framework的相关其他引用即系统以及第三方的framework的引入以及静态库的引入，还有一个设置是在other linker flags下设置-ObjC，整个过程就是这样。
+>
+
+
+
+### CocoaPods创建自己的公开库、私有库
+
+> #### CocoaPods创建自己的公开库
+>
+> >1. **注册Trunk** 
+> >
+> >   - runk需要CocoaPods 0.33版本以上  用`pod --version` 命令查看版本
+> >
+> >   如果版本低，需要升级：
+> >
+> >   ```
+> >   sudo gen install cocoapods
+> >   pod setup
+> >   ```
+> >
+> >   - 查看自己是否注册过Trunk
+> >
+> >     ```
+> >     pod trunk me
+> >     ```
+> >
+> >     - 如果没有注册过![1545100579803](https://github.com/Wcaulpl/CodeTools/CocoaPods创建自己的公开库、私有库/1545100579803.jpg)
+> >
+> >     - 注册
+> >
+> >       ```
+> >       pod trunk register slzxy14@163.com "Wcaulpl" --verbose
+> >       
+> >       "Wcaulpl" 里面代表你的用户名，最好起一个好的名字
+> >       slzxy14@163.com 代表你的邮箱
+> >       ```
+> >
+> >     - 注册成功后可以再查看一下个人信息pod trunk me
+> >
+> >       ![1545100993485](https://github.com/Wcaulpl/CodeTools/CocoaPods创建自己的公开库、私有库/1545100993485.jpg)
+> >
+> >2. **创建一个项目**
+> >
+> >   * GitHub 上创建一个项目![1545112933774](https://github.com/Wcaulpl/CodeTools/CocoaPods创建自己的公开库、私有库/1545112933774.jpg)
+> >   * 将项目clone 下来，并添加 代码文件![1545114894849](https://github.com/Wcaulpl/CodeTools/CocoaPods创建自己的公开库、私有库/1545114894849.jpg)
+> >
+> >3. **创建编辑.podspec**
+> >
+> >   1. cd 到你的项目下
+> >
+> >      ```
+> >      //  XYAutoScrollLabel 这个是你框架的名称
+> >      2、pod spec create XYAutoScrollLabel
+> >      ```
+> >
+> >   2. 编辑.podspec
+> >
+> >      ```
+> >      Pod::Spec.new do |s|
+> >        s.name         = "XYAutoScrollLabel"  #名称，pod search 搜索的关键词,注意这里一定要和.podspec的名称一样,否则报错
+> >        s.version      = "0.0.1" #版本号
+> >        s.summary      = "一个文本超出文本框时自动滚动显示 的开源控件" #简介
+> >        s.description  = <<-DESC
+> >                         DESC
+> >        s.homepage     = "https://github.com/Wcaulpl/XYAutoScrollLabel" #项目主页地址
+> >        s.license      = { :type => "MIT", :file => "FILE_LICENSE" } #许可证
+> >        s.author             = { "Wcaulpl" => "slzxy14@163.com" } #作者
+> >        s.source       = { :git => "https://github.com/Wcaulpl/XYAutoScrollLabel.git", :tag => "#{s.version}" } #项目的地址
+> >        s.source_files  = "XYAutoScrollLabel", "XYAutoScrollLabel/*.{h,m}" #需要包含的源文件
+> >        s.public_header_files = "XYAutoScrollLabel/XYAutoScrollLabel.h" #公开的头文件
+> >        s.resources: 资源文件
+> >        s.dependency：依赖库，不能依赖未发布的库，可以写多个依赖库
+> >      
+> >      ```
+> >
+> >   3. 上传git 并 打tag
+> >
+> >      将包含配置好的 .podspec, LICENSE 的项目提交 Git
+> >
+> >      ```
+> >      //为git打tag
+> >      git tag "0.0.1" 
+> >      //将tag推送到远程仓库
+> >      git push --tags
+> >      ```
+> >
+> >4. **验证.podspec文件**
+> >
+> >   ```
+> >   pod spec lint XYAutoScrollLabel.podspec --verbose
+> >   pod lib lint --allow-warnings // 出现警告
+> >   ```
+> >
+> >5. **发布**
+> >
+> >   ```
+> >   发布时会验证 Pod 的有效性，如果你在手动验证 Pod 时使用了 --use-libraries 或 --allow-warnings 等修饰符，那么发布的时候也应该使用相同的字段修饰，否则出现相同的报错。
+> >   // --use-libraries --allow-warnings
+> >   pod trunk push XYAutoScrollLabel.podspec
+> >   ```
+> >
+> >   **出现这种情况就说明你发布成功了，等待人家审核就行了**![1545119099543](https://github.com/Wcaulpl/CodeTools/CocoaPods创建自己的公开库、私有库/1545119099543.jpg)
+> >
+> >   **验证仓库` pod search XYAutoScrollLabel ` 或 ` pod trunk me` ** 
+>
+> #### CocoaPods创建自己的私有库
+>
+>
+
+
+
+### 自动化测试工具 FastMonkey
 
 

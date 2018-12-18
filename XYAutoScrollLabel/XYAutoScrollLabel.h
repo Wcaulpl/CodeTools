@@ -27,13 +27,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) CGFloat minHeight; // 最小 高度度 默认 0  或initWithFrame 的 frame.size.height
 
 /**
- * The animation options used when scrolling the UILabels.
- * @discussion UIViewAnimationOptionAllowUserInteraction is always applied to the animations.
+ * 滚动UILabels时使用的动画选项
+ * @discussion UIViewAnimationOptionAllowUserInteraction 总是应用于动画。
  */
 @property (nonatomic) UIViewAnimationOptions animationOptions;
 
 /**
- * Returns YES, if it is actively scrolling, NO if it has paused or if text is within bounds (disables scrolling).
+ * 如果它正在主动滚动 返回YES，如果它已暂停或文本在界限内，则返回NO（禁用滚动）。
  */
 @property (nonatomic, readonly) BOOL scrolling;
 @property (nonatomic) CGFloat fadeLength; // defaults to 7
@@ -43,39 +43,44 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, nullable) NSString *text;
 @property (nonatomic, copy, nullable) NSAttributedString *attributedText;
 @property (nonatomic, strong, nonnull) UIColor *textColor;
-@property (nonatomic) NSTextAlignment textAlignment; // only applies when not auto-scrolling
+@property (nonatomic) NSTextAlignment textAlignment; // 只在不自动滚动时适用
 @property (nonatomic, strong, nullable) UIColor *shadowColor;
 @property (nonatomic) CGSize shadowOffset;
 
 /**
- * Lays out the scrollview contents, enabling text scrolling if the text will be clipped.
- * @discussion Uses [scrollLabelIfNeeded] internally.
+ * 布局滚动视图内容，如果文本将被剪辑，则启用文本滚动。
+ * @discussion 在内部使用 [scrollLabelIfNeeded]。
  */
 - (void)refreshLabels;
 
 /**
- * Set the text to the label and refresh labels, if needed.
- * @discussion Useful when you have a situation where you need to layout the scroll label after it's text is set.
+ * 如果需要，将文本设置为标签并刷新标签。
+ * @discussion 当您在设置了滚动标签的文本之后需要对它进行布局时，非常有用。
  */
 - (void)setText:(nullable NSString *)text refreshLabels:(BOOL)refresh;
 
 /**
- Set the attributed text and refresh labels, if needed.
+ * 如果需要，设置属性文本并刷新标签。
  */
 - (void)setAttributedText:(nullable NSAttributedString *)theText refreshLabels:(BOOL)refresh;
 
 /**
- * Initiates auto-scroll, if the label width exceeds the bounds of the scrollview.
+ * 如果标签宽度超过滚动视图的边界，则启动自动滚动。
  */
 - (void)scrollLabelIfNeeded;
 
 /**
- * Observes UIApplication state notifications to auto-restart scrolling and watch for
- * orientation changes to refresh the labels.
- * @discussion Must be called to observe the notifications. Calling multiple times will still only
- * register the notifications once.
+ * 观察自动重启滚动的UIApplication状态通知，并监视
+ * 方向改变以刷新标签。
+ * @discussion 必须调用以观察通知。多次调用将仍然仅注册通知一次。
  */
 - (void)observeApplicationNotifications;
+
+/**
+ * 不能直接赋值属性
+ */
+
+- (void)setFrame:(CGRect)frame __attribute__((unavailable("call initWithFrame:")));
 
 @end
 
