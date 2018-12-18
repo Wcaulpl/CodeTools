@@ -12,19 +12,23 @@
 
       - 如果没有注册过
 
-        ![1545100579803](https://github.com/Wcaulpl/CodeTools/CocoaPods%E5%88%9B%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%85%AC%E5%BC%80%E5%BA%93%E3%80%81%E7%A7%81%E6%9C%89%E5%BA%93/1545100579803.jpg)
+        ![1545100579803](https://github.com/Wcaulpl/CodeTools/blob/master/CocoaPods创建自己的公开库、私有库/1545100579803.jpg)
 
       - 注册
-       pod trunk register slzxy14@163.com "Wcaulpl" --verbose
-       
-       "Wcaulpl" 里面代表你的用户名，最好起一个好的名字
-       slzxy14@163.com 代表你的邮箱
+
+         ```
+         - pod trunk register slzxy14@163.com "Wcaulpl" --verbose
+         
+          "Wcaulpl" 里面代表你的用户名，最好起一个好的名字
+          slzxy14@163.com 代表你的邮箱
+         ```
+
       - 注册成功后可以再查看一下个人信息pod trunk me
-        ![1545100993485](https://github.com/Wcaulpl/CodeTools/CocoaPods%E5%88%9B%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%85%AC%E5%BC%80%E5%BA%93%E3%80%81%E7%A7%81%E6%9C%89%E5%BA%93/1545100993485.jpg)
+        ![1545100993485](https://github.com/Wcaulpl/CodeTools/blob/master/CocoaPods创建自己的公开库、私有库/1545100993485.jpg)
   2. **创建一个项目**
 
-    - GitHub 上创建一个项目![1545112933774](https://github.com/Wcaulpl/CodeTools/CocoaPods%E5%88%9B%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%85%AC%E5%BC%80%E5%BA%93%E3%80%81%E7%A7%81%E6%9C%89%E5%BA%93/1545112933774.jpg)
-   - 将项目clone 下来，并添加 代码文件![1545114894849](https://github.com/Wcaulpl/CodeTools/CocoaPods%E5%88%9B%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%85%AC%E5%BC%80%E5%BA%93%E3%80%81%E7%A7%81%E6%9C%89%E5%BA%93/1545114894849.jpg)
+    - GitHub 上创建一个项目![1545112933774](https://github.com/Wcaulpl/CodeTools/blob/master/CocoaPods创建自己的公开库、私有库/1545112933774.jpg)
+   - 将项目clone 下来，并添加 代码文件![1545114894849](https://github.com/Wcaulpl/CodeTools/blob/master/CocoaPods创建自己的公开库、私有库/1545114894849.jpg)
   3. **创建编辑.podspec**
 
     1. cd 到你的项目下
@@ -54,12 +58,10 @@
 4. **上传git 并 打tag**
   ​     将包含配置好的 .podspec, LICENSE 的项目提交 Git
 
-       ```
       //为git打tag
       git tag "0.0.1" 
       //将tag推送到远程仓库
       git push --tags
-       ```
  5. **验证.podspec文件**
 
     ```
@@ -75,6 +77,6 @@
    ```
 **出现这种情况就说明你发布成功了，等待人家审核就行了**
 
-![1545119099543](https://github.com/Wcaulpl/CodeTools/CocoaPods%E5%88%9B%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%85%AC%E5%BC%80%E5%BA%93%E3%80%81%E7%A7%81%E6%9C%89%E5%BA%93/1545119099543.jpg)
+![1545119099543](https://github.com/Wcaulpl/CodeTools/blob/master/CocoaPods创建自己的公开库、私有库/1545119099543.jpg)
 
 **验证仓库` pod search XYAutoScrollLabel ` 或 ` pod trunk me` ** 
