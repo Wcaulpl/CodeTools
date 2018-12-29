@@ -16,7 +16,7 @@
 		035886A721C3998200516422 /* NSString+Encrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = 0358869E21C3998200516422 /* NSString+Encrypt.m */; };
 		035886A821C3998200516422 /* UIControl+ClickRepeatedly.m in Sources */ = {isa = PBXBuildFile; fileRef = 0358869F21C3998200516422 /* UIControl+ClickRepeatedly.m */; };
 		035886A921C3998200516422 /* NSString+Date.m in Sources */ = {isa = PBXBuildFile; fileRef = 035886A221C3998200516422 /* NSString+Date.m */; };
-		035886AA21C3998200516422 /* NSString+Regular.m in Sources */ = {isa = PBXBuildFile; fileRef = 035886A421C3998200516422 /* NSString+Regular.m */; };
+		035886AA21C3998200516422 /* NSString+XYRegex.m in Sources */ = {isa = PBXBuildFile; fileRef = 035886A421C3998200516422 /* NSString+XYRegex.m */; };
 		035886AE21C39B6C00516422 /* UIButton+XYExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 035886AC21C39B6C00516422 /* UIButton+XYExtension.m */; };
 		035886B021C39F3800516422 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 035886AF21C39F3800516422 /* Main.storyboard */; };
 		036A5ECE21C74EE000A0610F /* XYDateAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 036A5ECD21C74EE000A0610F /* XYDateAttribute.m */; };
@@ -38,11 +38,11 @@
 		0358869D21C3998200516422 /* NSString+Date.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Date.h"; sourceTree = "<group>"; };
 		0358869E21C3998200516422 /* NSString+Encrypt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Encrypt.m"; sourceTree = "<group>"; };
 		0358869F21C3998200516422 /* UIControl+ClickRepeatedly.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+ClickRepeatedly.m"; sourceTree = "<group>"; };
-		035886A021C3998200516422 /* NSString+Regular.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Regular.h"; sourceTree = "<group>"; };
+		035886A021C3998200516422 /* NSString+XYRegex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+XYRegex.h"; sourceTree = "<group>"; };
 		035886A121C3998200516422 /* NSString+Encrypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Encrypt.h"; sourceTree = "<group>"; };
 		035886A221C3998200516422 /* NSString+Date.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Date.m"; sourceTree = "<group>"; };
 		035886A321C3998200516422 /* UIControl+ClickRepeatedly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIControl+ClickRepeatedly.h"; sourceTree = "<group>"; };
-		035886A421C3998200516422 /* NSString+Regular.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Regular.m"; sourceTree = "<group>"; };
+		035886A421C3998200516422 /* NSString+XYRegex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+XYRegex.m"; sourceTree = "<group>"; };
 		035886AB21C399E200516422 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		035886AC21C39B6C00516422 /* UIButton+XYExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+XYExtension.m"; sourceTree = "<group>"; };
 		035886AD21C39B6C00516422 /* UIButton+XYExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+XYExtension.h"; sourceTree = "<group>"; };
@@ -117,8 +117,8 @@
 				036A5ED021C74F5300A0610F /* NSDate+XYAttribute.m */,
 				0358869D21C3998200516422 /* NSString+Date.h */,
 				035886A221C3998200516422 /* NSString+Date.m */,
-				035886A021C3998200516422 /* NSString+Regular.h */,
-				035886A421C3998200516422 /* NSString+Regular.m */,
+				035886A021C3998200516422 /* NSString+XYRegex.h */,
+				035886A421C3998200516422 /* NSString+XYRegex.m */,
 				035886A121C3998200516422 /* NSString+Encrypt.h */,
 				0358869E21C3998200516422 /* NSString+Encrypt.m */,
 				035886AD21C39B6C00516422 /* UIButton+XYExtension.h */,
@@ -210,7 +210,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				035886AA21C3998200516422 /* NSString+Regular.m in Sources */,
+				035886AA21C3998200516422 /* NSString+XYRegex.m in Sources */,
 				0358868521C3993C00516422 /* ViewController.m in Sources */,
 				0358869021C3993E00516422 /* main.m in Sources */,
 				035886AE21C39B6C00516422 /* UIButton+XYExtension.m in Sources */,
