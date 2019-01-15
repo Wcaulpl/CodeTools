@@ -19,6 +19,9 @@
 		035886AA21C3998200516422 /* NSString+XYRegex.m in Sources */ = {isa = PBXBuildFile; fileRef = 035886A421C3998200516422 /* NSString+XYRegex.m */; };
 		035886AE21C39B6C00516422 /* UIButton+XYExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 035886AC21C39B6C00516422 /* UIButton+XYExtension.m */; };
 		035886B021C39F3800516422 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 035886AF21C39F3800516422 /* Main.storyboard */; };
+		0362C92421ED798C001A2E7D /* NSArray+XYConditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0362C92321ED798C001A2E7D /* NSArray+XYConditions.m */; };
+		03682BE521D75FB40087A346 /* XYAuthID.m in Sources */ = {isa = PBXBuildFile; fileRef = 03682BE421D75FB40087A346 /* XYAuthID.m */; };
+		03682BE921D765790087A346 /* XYAuthIDDemoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03682BE821D765790087A346 /* XYAuthIDDemoController.m */; };
 		036A5ECE21C74EE000A0610F /* XYDateAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 036A5ECD21C74EE000A0610F /* XYDateAttribute.m */; };
 		036A5ED121C74F5300A0610F /* NSDate+XYAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 036A5ED021C74F5300A0610F /* NSDate+XYAttribute.m */; };
 /* End PBXBuildFile section */
@@ -47,6 +50,12 @@
 		035886AC21C39B6C00516422 /* UIButton+XYExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+XYExtension.m"; sourceTree = "<group>"; };
 		035886AD21C39B6C00516422 /* UIButton+XYExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+XYExtension.h"; sourceTree = "<group>"; };
 		035886AF21C39F3800516422 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		0362C92221ED798C001A2E7D /* NSArray+XYConditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+XYConditions.h"; sourceTree = "<group>"; };
+		0362C92321ED798C001A2E7D /* NSArray+XYConditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+XYConditions.m"; sourceTree = "<group>"; };
+		03682BE321D75FB40087A346 /* XYAuthID.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XYAuthID.h; sourceTree = "<group>"; };
+		03682BE421D75FB40087A346 /* XYAuthID.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XYAuthID.m; sourceTree = "<group>"; };
+		03682BE721D765790087A346 /* XYAuthIDDemoController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XYAuthIDDemoController.h; sourceTree = "<group>"; };
+		03682BE821D765790087A346 /* XYAuthIDDemoController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XYAuthIDDemoController.m; sourceTree = "<group>"; };
 		036A5ECC21C74EE000A0610F /* XYDateAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XYDateAttribute.h; sourceTree = "<group>"; };
 		036A5ECD21C74EE000A0610F /* XYDateAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XYDateAttribute.m; sourceTree = "<group>"; };
 		036A5ECF21C74F5300A0610F /* NSDate+XYAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+XYAttribute.h"; sourceTree = "<group>"; };
@@ -83,6 +92,7 @@
 		0358867F21C3993C00516422 /* CodeToolsDemo */ = {
 			isa = PBXGroup;
 			children = (
+				03682BE221D75F1F0087A346 /* XYAuthID */,
 				036A5ECB21C74EE000A0610F /* XYDateAttribute */,
 				0358869C21C3998200516422 /* Category */,
 				0358869621C3998200516422 /* XYAutoScrollLabel */,
@@ -90,6 +100,7 @@
 				0358868121C3993C00516422 /* AppDelegate.m */,
 				0358868321C3993C00516422 /* ViewController.h */,
 				0358868421C3993C00516422 /* ViewController.m */,
+				03682BE621D765570087A346 /* XYAuthIDDemo */,
 				035886AB21C399E200516422 /* PrefixHeader.pch */,
 				035886AF21C39F3800516422 /* Main.storyboard */,
 				0358868921C3993E00516422 /* Assets.xcassets */,
@@ -113,6 +124,8 @@
 		0358869C21C3998200516422 /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				0362C92221ED798C001A2E7D /* NSArray+XYConditions.h */,
+				0362C92321ED798C001A2E7D /* NSArray+XYConditions.m */,
 				036A5ECF21C74F5300A0610F /* NSDate+XYAttribute.h */,
 				036A5ED021C74F5300A0610F /* NSDate+XYAttribute.m */,
 				0358869D21C3998200516422 /* NSString+Date.h */,
@@ -128,6 +141,24 @@
 			);
 			name = Category;
 			path = ../../Category;
+			sourceTree = "<group>";
+		};
+		03682BE221D75F1F0087A346 /* XYAuthID */ = {
+			isa = PBXGroup;
+			children = (
+				03682BE321D75FB40087A346 /* XYAuthID.h */,
+				03682BE421D75FB40087A346 /* XYAuthID.m */,
+			);
+			path = XYAuthID;
+			sourceTree = "<group>";
+		};
+		03682BE621D765570087A346 /* XYAuthIDDemo */ = {
+			isa = PBXGroup;
+			children = (
+				03682BE721D765790087A346 /* XYAuthIDDemoController.h */,
+				03682BE821D765790087A346 /* XYAuthIDDemoController.m */,
+			);
+			path = XYAuthIDDemo;
 			sourceTree = "<group>";
 		};
 		036A5ECB21C74EE000A0610F /* XYDateAttribute */ = {
@@ -210,11 +241,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03682BE921D765790087A346 /* XYAuthIDDemoController.m in Sources */,
 				035886AA21C3998200516422 /* NSString+XYRegex.m in Sources */,
 				0358868521C3993C00516422 /* ViewController.m in Sources */,
+				0362C92421ED798C001A2E7D /* NSArray+XYConditions.m in Sources */,
 				0358869021C3993E00516422 /* main.m in Sources */,
 				035886AE21C39B6C00516422 /* UIButton+XYExtension.m in Sources */,
 				035886A921C3998200516422 /* NSString+Date.m in Sources */,
+				03682BE521D75FB40087A346 /* XYAuthID.m in Sources */,
 				035886A721C3998200516422 /* NSString+Encrypt.m in Sources */,
 				035886A821C3998200516422 /* UIControl+ClickRepeatedly.m in Sources */,
 				0358868221C3993C00516422 /* AppDelegate.m in Sources */,
@@ -355,9 +389,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = DFBU4453G3;
+				DEVELOPMENT_TEAM = 53PQC8846E;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/CodeToolsDemo/PrefixHeader.pch";
 				INFOPLIST_FILE = CodeToolsDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -373,9 +408,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = DFBU4453G3;
+				DEVELOPMENT_TEAM = 53PQC8846E;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/CodeToolsDemo/PrefixHeader.pch";
 				INFOPLIST_FILE = CodeToolsDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

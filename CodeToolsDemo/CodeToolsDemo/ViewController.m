@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "XYDateAttribute.h"
+#import "XYAuthIDDemoController.h"
 
 @interface ViewController ()
 
@@ -62,9 +63,15 @@ XYPropSetFuncImplementation(ViewController, XYAutoScrollLabel *, titleNav)
     [self.btn3 xy_locationAdjustWithMode:buttonModeRight spacing:10];
     [self.btn4 xy_locationAdjustWithMode:buttonModeBottom spacing:10];
     
+    [self.btn1 addTarget:self action:@selector(next) forControlEvents:(UIControlEventTouchUpInside)];
     self.checkBtn.clickInterval = 4;
     
     [self getDate];
+}
+
+- (void)next {
+    XYAuthIDDemoController *authVc = [[XYAuthIDDemoController alloc] init];
+    [self.navigationController pushViewController:authVc animated:YES];
 }
 
 - (void)getDate {

@@ -60,11 +60,13 @@ return theSharedInstance;\
 /*********************************************************************
  * 颜色宏
  */
-#define RGBA(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(r)/255.0 blue:(r)/255.0 alpha:a]
+#define RGBA(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:a]
 
 #define RGB(r, g, b) RGBA(r, g, b, 1.0)
 
 #define HEX(hex, a) RGBA(((float)((hex & 0xFF0000) >> 16)), ((float)((hex & 0xFF00) >> 8)), ((float)(hex & 0xFF)), a)
+
+// 颜色转image
 //*********************************************************************
 
 
@@ -77,6 +79,32 @@ return theSharedInstance;\
 #else
 #define XYLog(...)
 #endif
+//*********************************************************************
+
+
+
+/*********************************************************************
+ * Assert functions Assert 断言
+ */
+//iAssert 断言
+#define XYAssert(expression, ...) \
+do { if(!(expression)) { \
+XYog(@"%@", \
+[NSString stringWithFormat: @"Assertion failure: %s in %s on line %s:%d. %@",\
+#expression, \
+__PRETTY_FUNCTION__, \
+__FILE__, __LINE__,  \
+[NSString stringWithFormat:@"" __VA_ARGS__]]); \
+abort(); } \
+} while(0)
+//*********************************************************************
+
+
+
+/*********************************************************************
+ * 方法禁用提示
+ */
+#define XYDeprecated(instead) NS_DEPRECATED(2_0, 2_0, 2_0, 2_0, instead)
 //*********************************************************************
 
 
@@ -114,6 +142,33 @@ return theSharedInstance;\
 
 
 
+/*********************************************************************
+ * Extern and Inline  functions 内联函数  外联函数
+ */
+/*／EXTERN 外联函数*/
+#if !defined(XY_EXTERN)
+#  if defined(__cplusplus)
+#   define XY_EXTERN extern "C"
+#  else
+#   define XY_EXTERN extern
+#  endif
+#endif
+
+/*INLINE 内联函数*/
+#if !defined(XY_INLINE)
+# if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
+#  define XY_INLINE static inline
+# elif defined(__cplusplus)
+#  define XY_INLINE static inline
+# elif defined(__GNUC__)
+#  define XY_INLINE static __inline__
+# else
+#  define XY_INLINE static
+# endif
+#endif
+//*********************************************************************
+
+
 
 /*********************************************************************
  * 手机系统版本
@@ -122,9 +177,19 @@ return theSharedInstance;\
 //********************************************************************
 
 /*********************************************************************
- * 是否空类
+ * nil or NULL 空判断
  */
-#define IS_NULL(obj) [obj isEqual:[NSNull null]]
+
+//是否为空或是[NSNull null]
+#define NotNilAndNull(_ref)  (((_ref) != nil) && (![(_ref) isEqual:[NSNull null]]))
+#define IsNilOrNull(_ref)   (((_ref) == nil) || ([(_ref) isEqual:[NSNull null]]))
+
+//字符串是否为空
+#define IsStrEmpty(_ref)    (((_ref) == nil) || ([(_ref) isEqual:[NSNull null]]) ||([(_ref)isEqualToString:@""]))
+
+//数组是否为空
+#define IsArrEmpty(_ref)    (((_ref) == nil) || ([(_ref) isEqual:[NSNull null]]) ||([(_ref) count] == 0))
+
 //********************************************************************
 
 /*********************************************************************

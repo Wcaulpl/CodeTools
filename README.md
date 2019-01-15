@@ -1,6 +1,13 @@
-# CodeTools
+# CodeTools    
+```
+下一步整理正则表达式 自动生成 正则字符
+```
 
 ### 无数据 底图 LYEmptyView
+
+### 二维码生成扫描 LBXScan
+
+### 权限请求判断 LBXPermission
 
 ### 滚动label  XYAutoScrollLabel
 
@@ -209,7 +216,7 @@ return theSharedInstance;\
 
 ```
 // 全部圆角设置
-#define XYViewBorderRadius(view, radius)view.layer.masksToBounds=YES;\
+#define XYViewBorderRadius(view, radius) view.layer.masksToBounds=YES;\
 view.layer.cornerRadius=radius;
 
 // 各个圆角设置
@@ -218,7 +225,20 @@ shapeLayer.path = [UIBezierPath bezierPathWithRoundedRect:view.bounds byRounding
 view.layer.mask = shapeLayer
 ```
 
-#### 12.属性快速声明
+#### 12.屏幕截图
+
+```
+#define XYscreenShot(view) \
+({\
+UIGraphicsBeginImageContext(view.frame.size);\
+[view.layer renderInContext:UIGraphicsGetCurrentContext()];\
+UIImage *img = UIGraphicsGetImageFromCurrentImageContext();\
+UIGraphicsEndImageContext();\
+(img);\
+})\
+```
+
+#### 13.属性快速声明
 
 ```
 //property属性快速声明
@@ -239,7 +259,7 @@ return self;                                                                    
 }
 ```
 
-#### 13.GCD宏定义
+#### 14.GCD宏定义
 
 ```
 //GCD - 一次性执行
