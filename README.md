@@ -400,7 +400,7 @@ typedef enum : NSUInteger {
 }
 ```
 
-###打包动态库和静态库
+### 打包动态库和静态库
 
 > #### [打包动态库和静态库](https://www.jianshu.com/p/cebe06c9f275)
 >
