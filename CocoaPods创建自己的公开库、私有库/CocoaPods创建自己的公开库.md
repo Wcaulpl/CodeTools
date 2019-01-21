@@ -12,7 +12,7 @@
 
       - 如果没有注册过
 
-        ![1545100579803](/Users/cetzxy/Desktop/CodeTools/CocoaPods创建自己的公开库、私有库/1545100579803.jpg)
+        ![1545100579803](assets/1545100579803.jpg)
 
       - 注册
 
@@ -24,11 +24,11 @@
          ```
 
       - 注册成功后可以再查看一下个人信息pod trunk me
-        ![1545100993485](/Users/cetzxy/Desktop/CodeTools/CocoaPods创建自己的公开库、私有库/1545100993485.jpg)
+        ![1545100993485](assets/1545100993485.jpg)
   2. **创建一个项目**
 
-    - GitHub 上创建一个项目![1545112933774](/Users/cetzxy/Desktop/CodeTools/CocoaPods创建自己的公开库、私有库/1545112933774.jpg)
-   - 将项目clone 下来，并添加 代码文件![1545114894849](/Users/cetzxy/Desktop/CodeTools/CocoaPods创建自己的公开库、私有库/1545114894849.jpg)
+    - GitHub 上创建一个项目![1545112933774](assets/1545112933774.jpg)
+   - 将项目clone 下来，并添加 代码文件![1545114894849](assets/1545114894849.jpg)
   3. **创建编辑.podspec**
 
     1. cd 到你的项目下
@@ -76,6 +76,6 @@
    ```
 **出现这种情况就说明你发布成功了，等待人家审核就行了**
 
-![1545119099543](/Users/cetzxy/Desktop/CodeTools/CocoaPods创建自己的公开库、私有库/1545119099543.jpg)
+![1545119099543](assets/1545119099543.jpg)
 
 **验证仓库` pod search XYAutoScrollLabel ` 或 ` pod trunk me` ** 
