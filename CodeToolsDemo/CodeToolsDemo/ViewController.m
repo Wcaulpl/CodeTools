@@ -10,12 +10,15 @@
 #import "XYDateAttribute.h"
 #import "XYAuthIDDemoController.h"
 
+#import "XYAppIconTools.h"
+#import <UserNotifications/UserNotifications.h>
+
 @interface ViewController ()
 
-XYPropStatementAndFuncStatement(weak, ViewController, XYAutoScrollLabel *, titleNav);
-XYPropStatement(weak, XYAutoScrollLabel *, titleLabel);
-//@property (nonatomic, weak) XYAutoScrollLabel *titleNav;
-//@property (nonatomic, weak) XYAutoScrollLabel *titleLabel;
+//XYPropStatementAndFuncStatement(weak, ViewController, XYAutoScrollLabel *, titleNav);
+//XYPropStatement(weak, XYAutoScrollLabel *, titleLabel);
+@property (nonatomic, weak) XYAutoScrollLabel *titleNav;
+@property (nonatomic, weak) XYAutoScrollLabel *titleLabel;
 @property (nonatomic, weak) UIView *backView;
 @property (weak, nonatomic) IBOutlet UIButton *btn1;
 @property (weak, nonatomic) IBOutlet UIButton *btn2;
@@ -27,17 +30,13 @@ XYPropStatement(weak, XYAutoScrollLabel *, titleLabel);
 
 @implementation ViewController
 
-XYPropSetFuncImplementation(ViewController, XYAutoScrollLabel *, titleNav)
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
     NSString *str = @"导航滚动title: 这是一段很长很长很长很长很长很长很长很长很长很长很长很长很长很长的一段文字".aes256Encrypt;
     XYLog(@"加密 :%@", str);
-    
     XYLog(@"解密 :%@", str.aes256Decrypt);
-    
     /* 自定义导航 栏 */
     XYAutoScrollLabel *titleNav = [[XYAutoScrollLabel alloc] init];
     self.titleNav = titleNav;
@@ -106,6 +105,16 @@ XYPropSetFuncImplementation(ViewController, XYAutoScrollLabel *, titleNav)
         self.titleNav.text = @"导航自然title";
         XYViewCornerRadius(self.backView, 20, UIRectCornerBottomRight|UIRectCornerBottomLeft);
     }
+    
+    BOOL supportsAlternateIcons = [XYAppIconTools xy_supportsAlternateIcons];
+    NSLog(@"supportsAlternateIcons value: %@", supportsAlternateIcons?@"YES":@"NO");
+    if (!supportsAlternateIcons) {
+        return;
+    }
+    [XYAppIconTools xy_setAlternateIconsWithIconName:@"male" completionHandler:^(NSError * _Nullable error) {
+        NSLog(@"error: %@", error);
+    }];
+    
 }
 
 - (IBAction)changeLabel:(UIButton *)sender {
@@ -116,6 +125,31 @@ XYPropSetFuncImplementation(ViewController, XYAutoScrollLabel *, titleNav)
         XYLog(@"解密 :%@", str.aes256Decrypt);
     } else {
         self.titleLabel.text = @"label自然title";
+    }
+    
+    [XYAppIconTools xy_setAlternateIconsWithIconName:@"female" completionHandler:^(NSError * _Nullable error) {
+        NSLog(@"error: %@", error);
+    }];
+    
+    if (@available(iOS 10.0, *)) {
+        UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
+        content.title = @"this is Notifications";
+        content.subtitle = @"本地通知";
+        content.body = @"推送一条本地通知";
+        content.badge = @1;
+        content.userInfo = @{@"type":@"this is a userNotification"};
+        //每小时重复 1 次喊我喝水
+        UNTimeIntervalNotificationTrigger *trigger2 = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:60 repeats:YES];
+        NSString *requestIdentifier = @"sampleRequest";
+        UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:requestIdentifier content:content trigger:trigger2];
+        UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+        [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) {
+            if (error) {
+                NSLog(@"本地消息推送失败：%@", error);
+            }
+        }];
+    } else {
+        // Fallback on earlier versions
     }
 }
 

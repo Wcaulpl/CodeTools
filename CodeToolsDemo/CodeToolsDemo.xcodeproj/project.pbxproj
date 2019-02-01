@@ -19,6 +19,11 @@
 		035886AA21C3998200516422 /* NSString+XYRegex.m in Sources */ = {isa = PBXBuildFile; fileRef = 035886A421C3998200516422 /* NSString+XYRegex.m */; };
 		035886AE21C39B6C00516422 /* UIButton+XYExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 035886AC21C39B6C00516422 /* UIButton+XYExtension.m */; };
 		035886B021C39F3800516422 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 035886AF21C39F3800516422 /* Main.storyboard */; };
+		0361567822042AF5003A2757 /* male@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0361567422042AF5003A2757 /* male@2x.png */; };
+		0361567922042AF5003A2757 /* male@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0361567522042AF5003A2757 /* male@3x.png */; };
+		0361567A22042AF5003A2757 /* female@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0361567622042AF5003A2757 /* female@2x.png */; };
+		0361567B22042AF5003A2757 /* female@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0361567722042AF5003A2757 /* female@3x.png */; };
+		0361567F22042BF4003A2757 /* XYAppIconTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 0361567E22042BF4003A2757 /* XYAppIconTools.m */; };
 		0362C92421ED798C001A2E7D /* NSArray+XYConditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0362C92321ED798C001A2E7D /* NSArray+XYConditions.m */; };
 		03682BE521D75FB40087A346 /* XYAuthID.m in Sources */ = {isa = PBXBuildFile; fileRef = 03682BE421D75FB40087A346 /* XYAuthID.m */; };
 		03682BE921D765790087A346 /* XYAuthIDDemoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03682BE821D765790087A346 /* XYAuthIDDemoController.m */; };
@@ -50,6 +55,12 @@
 		035886AC21C39B6C00516422 /* UIButton+XYExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+XYExtension.m"; sourceTree = "<group>"; };
 		035886AD21C39B6C00516422 /* UIButton+XYExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+XYExtension.h"; sourceTree = "<group>"; };
 		035886AF21C39F3800516422 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		0361567422042AF5003A2757 /* male@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "male@2x.png"; sourceTree = "<group>"; };
+		0361567522042AF5003A2757 /* male@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "male@3x.png"; sourceTree = "<group>"; };
+		0361567622042AF5003A2757 /* female@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "female@2x.png"; sourceTree = "<group>"; };
+		0361567722042AF5003A2757 /* female@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "female@3x.png"; sourceTree = "<group>"; };
+		0361567D22042BF4003A2757 /* XYAppIconTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XYAppIconTools.h; sourceTree = "<group>"; };
+		0361567E22042BF4003A2757 /* XYAppIconTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XYAppIconTools.m; sourceTree = "<group>"; };
 		0362C92221ED798C001A2E7D /* NSArray+XYConditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+XYConditions.h"; sourceTree = "<group>"; };
 		0362C92321ED798C001A2E7D /* NSArray+XYConditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+XYConditions.m"; sourceTree = "<group>"; };
 		03682BE321D75FB40087A346 /* XYAuthID.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XYAuthID.h; sourceTree = "<group>"; };
@@ -92,6 +103,8 @@
 		0358867F21C3993C00516422 /* CodeToolsDemo */ = {
 			isa = PBXGroup;
 			children = (
+				0361567C22042BF4003A2757 /* XYAppIconTools */,
+				0361567322042AF5003A2757 /* AppIcons */,
 				03682BE221D75F1F0087A346 /* XYAuthID */,
 				036A5ECB21C74EE000A0610F /* XYDateAttribute */,
 				0358869C21C3998200516422 /* Category */,
@@ -141,6 +154,27 @@
 			);
 			name = Category;
 			path = ../../Category;
+			sourceTree = "<group>";
+		};
+		0361567322042AF5003A2757 /* AppIcons */ = {
+			isa = PBXGroup;
+			children = (
+				0361567422042AF5003A2757 /* male@2x.png */,
+				0361567522042AF5003A2757 /* male@3x.png */,
+				0361567622042AF5003A2757 /* female@2x.png */,
+				0361567722042AF5003A2757 /* female@3x.png */,
+			);
+			path = AppIcons;
+			sourceTree = "<group>";
+		};
+		0361567C22042BF4003A2757 /* XYAppIconTools */ = {
+			isa = PBXGroup;
+			children = (
+				0361567D22042BF4003A2757 /* XYAppIconTools.h */,
+				0361567E22042BF4003A2757 /* XYAppIconTools.m */,
+			);
+			name = XYAppIconTools;
+			path = ../../XYAppIconTools;
 			sourceTree = "<group>";
 		};
 		03682BE221D75F1F0087A346 /* XYAuthID */ = {
@@ -228,9 +262,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0361567B22042AF5003A2757 /* female@3x.png in Resources */,
 				0358868D21C3993E00516422 /* LaunchScreen.storyboard in Resources */,
 				0358868A21C3993E00516422 /* Assets.xcassets in Resources */,
+				0361567A22042AF5003A2757 /* female@2x.png in Resources */,
 				035886B021C39F3800516422 /* Main.storyboard in Resources */,
+				0361567822042AF5003A2757 /* male@2x.png in Resources */,
+				0361567922042AF5003A2757 /* male@3x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,6 +290,7 @@
 				035886A721C3998200516422 /* NSString+Encrypt.m in Sources */,
 				035886A821C3998200516422 /* UIControl+ClickRepeatedly.m in Sources */,
 				0358868221C3993C00516422 /* AppDelegate.m in Sources */,
+				0361567F22042BF4003A2757 /* XYAppIconTools.m in Sources */,
 				035886A521C3998200516422 /* XYAutoScrollLabel.m in Sources */,
 				036A5ED121C74F5300A0610F /* NSDate+XYAttribute.m in Sources */,
 				036A5ECE21C74EE000A0610F /* XYDateAttribute.m in Sources */,
