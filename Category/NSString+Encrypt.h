@@ -49,7 +49,15 @@ NS_ASSUME_NONNULL_BEGIN
  * AES256解码：
  */
 - (NSString *)aes256Decrypt;
+/*
+ * AES128加密：
+ */
+- (NSString *)encrypt;
 
+/*
+ * AES128解码：
+ */
+- (NSString *)decrypt;
 
 #pragma mark -------------DES3加密解密------------
 /*

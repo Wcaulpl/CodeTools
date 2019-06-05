@@ -157,6 +157,103 @@ static NSString *key = @"12345678";
     }
 }
 
+#pragma mark -------------AES128加密解密------------
+//加密与解密的秘钥，保持与后台的秘钥相同
+static NSString *gkey = @"CetSoftEMSSysWeb";
+//static NSString *gIv = @"1934577290ABCDEF1264147890ACAE45";
+static Byte gIv[] = { 0x19, 0x34, 0x57, 0x72, 0x90, 0xAB, 0xCD, 0xEF, 0x12, 0x64, 0x14, 0x78, 0x90, 0xAC, 0xAE, 0x45 };
+/*
+ * AES128加密：
+ */
+- (NSString *)encrypt {
+    NSString *decryptText = self;
+    
+    char keyPtr[kCCKeySizeAES128+1];
+    memset(keyPtr, 0, sizeof(keyPtr));
+    [gkey getCString:keyPtr maxLength:sizeof(keyPtr) encoding:NSUTF8StringEncoding];
+    
+    NSData* data = [decryptText dataUsingEncoding:NSUTF8StringEncoding];
+    NSUInteger dataLength = [data length];
+    
+    int diff = kCCKeySizeAES128 - (dataLength % kCCKeySizeAES128);
+    long newSize = 0;
+    
+    if(diff > 0)
+    {
+        newSize = dataLength + diff;
+    }
+    
+    char dataPtr[newSize];
+    memcpy(dataPtr, [data bytes], [data length]);
+    for(int i = 0; i < diff; i++)
+    {
+        dataPtr[i + dataLength] = 0x00;
+    }
+    
+    size_t bufferSize = newSize + kCCBlockSizeAES128;
+    void *buffer = malloc(bufferSize);
+    memset(buffer, 0, bufferSize);
+    
+    size_t numBytesCrypted = 0;
+    
+    CCCryptorStatus cryptStatus = CCCrypt(kCCEncrypt,
+                                          kCCAlgorithmAES128,
+                                          0x0000,               //No padding
+                                          keyPtr,
+                                          kCCKeySizeAES128,
+                                          gIv,
+                                          dataPtr,
+                                          sizeof(dataPtr),
+                                          buffer,
+                                          bufferSize,
+                                          &numBytesCrypted);
+    
+    if (cryptStatus == kCCSuccess) {
+        NSData *resultData = [NSData dataWithBytesNoCopy:buffer length:numBytesCrypted];
+        return [GTMBase64 stringByEncodingData:resultData];
+    }
+    free(buffer);
+    return nil;
+}
+
+/*
+ * AES128解码：
+ */
+- (NSString *)decrypt {
+    NSString *encryptText = self;
+    
+    char keyPtr[kCCKeySizeAES128 + 1];
+    memset(keyPtr, 0, sizeof(keyPtr));
+    [gkey getCString:keyPtr maxLength:sizeof(keyPtr) encoding:NSUTF8StringEncoding];
+    
+    NSData *data = [[NSData alloc] initWithBase64EncodedString:encryptText options:NSDataBase64DecodingIgnoreUnknownCharacters];
+    NSUInteger dataLength = [data length];
+    size_t bufferSize = dataLength + kCCBlockSizeAES128;
+    void *buffer = malloc(bufferSize);
+    
+    size_t numBytesCrypted = 0;
+    CCCryptorStatus cryptStatus = CCCrypt(kCCDecrypt,
+                                          kCCAlgorithmAES128,
+                                          0x0000,
+                                          keyPtr,
+                                          kCCBlockSizeAES128,
+                                          gIv,
+                                          [data bytes],
+                                          dataLength,
+                                          buffer,
+                                          bufferSize,
+                                          &numBytesCrypted);
+    if (cryptStatus == kCCSuccess) {
+        NSData *resultData = [NSData dataWithBytesNoCopy:buffer length:numBytesCrypted];
+        NSString *result = [[NSString alloc] initWithData:resultData encoding:NSUTF8StringEncoding];
+        result = [result stringByReplacingOccurrencesOfString:@"\x10" withString:@""];
+        result = [result stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+        return result;
+    }
+    free(buffer);
+    return nil;
+}
+
 #pragma mark -------------DES3加密解密------------
 //秘钥
 #define gkey            @"wcaulpl@qq.comrnnchina"
