@@ -23,13 +23,13 @@ typedef void(^XYViewControllerWillAppearInjectBlock)(UIViewController *viewContr
 + (void)load
 {
     Method orginalMethod = class_getInstanceMethod(self, @selector(viewWillAppear:));
-    Method swizzledMethod = class_getInstanceMethod(self, @selector(xy_viewWillAppear:));
+    Method swizzledMethod = class_getInstanceMethod(self, @selector(xy_navigationBar_viewWillAppear:));
     method_exchangeImplementations(orginalMethod, swizzledMethod);
 }
 
-- (void)xy_viewWillAppear:(BOOL)animated
+- (void)xy_navigationBar_viewWillAppear:(BOOL)animated
 {
-    [self xy_viewWillAppear:animated];
+    [self xy_navigationBar_viewWillAppear:animated];
     
     if (self.xy_willAppearInjectBlock) {
         self.xy_willAppearInjectBlock(self, animated);
@@ -67,27 +67,25 @@ typedef void(^XYViewControllerWillAppearInjectBlock)(UIViewController *viewContr
 // MARK: - 替换UINavigationController的pushViewController:animated:方法，在此方法中去设置导航栏的隐藏和显示
 @implementation UINavigationController (XYNavigationBar)
 
-+ (void)load
-{
++ (void)load {
     Method originMethod = class_getInstanceMethod(self, @selector(pushViewController:animated:));
-    Method swizzedMethod = class_getInstanceMethod(self, @selector(xy_pushViewController:animated:));
+    Method swizzedMethod = class_getInstanceMethod(self, @selector(xy_navigationBar_pushViewController:animated:));
     method_exchangeImplementations(originMethod, swizzedMethod);
     
     Method originSetViewControllersMethod = class_getInstanceMethod(self, @selector(setViewControllers:animated:));
-    Method swizzedSetViewControllersMethod = class_getInstanceMethod(self, @selector(xy_setViewControllers:animated:));
+    Method swizzedSetViewControllersMethod = class_getInstanceMethod(self, @selector(xy_navigationBar_setViewControllers:animated:));
     method_exchangeImplementations(originSetViewControllersMethod, swizzedSetViewControllersMethod);
 }
 
-- (void)xy_pushViewController:(UIViewController *)viewController animated:(BOOL)animated
-{
+- (void)xy_navigationBar_pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
     // Handle perferred navigation bar appearance.
     [self xy_setupViewControllerBasedNavigationBarAppearanceIfNeeded:viewController];
     
     // Forward to primary implementation.
-    [self xy_pushViewController:viewController animated:animated];
+    [self xy_navigationBar_pushViewController:viewController animated:animated];
 }
 
-- (void)xy_setViewControllers:(NSArray<UIViewController *> *)viewControllers animated:(BOOL)animated
+- (void)xy_navigationBar_setViewControllers:(NSArray<UIViewController *> *)viewControllers animated:(BOOL)animated
 {
     // Handle perferred navigation bar appearance.
     for (UIViewController *viewController in viewControllers) {
@@ -95,7 +93,7 @@ typedef void(^XYViewControllerWillAppearInjectBlock)(UIViewController *viewContr
     }
     
     // Forward to primary implementation.
-    [self xy_setViewControllers:viewControllers animated:animated];
+    [self xy_navigationBar_setViewControllers:viewControllers animated:animated];
 }
 
 - (void)xy_setupViewControllerBasedNavigationBarAppearanceIfNeeded:(UIViewController *)appearingViewController

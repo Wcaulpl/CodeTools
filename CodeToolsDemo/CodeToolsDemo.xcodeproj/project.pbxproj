@@ -29,6 +29,8 @@
 		03682BE921D765790087A346 /* XYAuthIDDemoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03682BE821D765790087A346 /* XYAuthIDDemoController.m */; };
 		036A5ECE21C74EE000A0610F /* XYDateAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 036A5ECD21C74EE000A0610F /* XYDateAttribute.m */; };
 		036A5ED121C74F5300A0610F /* NSDate+XYAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 036A5ED021C74F5300A0610F /* NSDate+XYAttribute.m */; };
+		D1B77FA122E16EE4006B6705 /* UINavigationController+XYBase.m in Sources */ = {isa = PBXBuildFile; fileRef = D1B77FA022E16EE4006B6705 /* UINavigationController+XYBase.m */; };
+		D1B77FA422E16F07006B6705 /* UINavigationController+XYNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D1B77FA222E16F07006B6705 /* UINavigationController+XYNavigationBar.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -71,6 +73,10 @@
 		036A5ECD21C74EE000A0610F /* XYDateAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XYDateAttribute.m; sourceTree = "<group>"; };
 		036A5ECF21C74F5300A0610F /* NSDate+XYAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+XYAttribute.h"; sourceTree = "<group>"; };
 		036A5ED021C74F5300A0610F /* NSDate+XYAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+XYAttribute.m"; sourceTree = "<group>"; };
+		D1B77F9F22E16EE4006B6705 /* UINavigationController+XYBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+XYBase.h"; sourceTree = "<group>"; };
+		D1B77FA022E16EE4006B6705 /* UINavigationController+XYBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+XYBase.m"; sourceTree = "<group>"; };
+		D1B77FA222E16F07006B6705 /* UINavigationController+XYNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+XYNavigationBar.m"; sourceTree = "<group>"; };
+		D1B77FA322E16F07006B6705 /* UINavigationController+XYNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+XYNavigationBar.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +143,8 @@
 		0358869C21C3998200516422 /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				D1B77FA322E16F07006B6705 /* UINavigationController+XYNavigationBar.h */,
+				D1B77FA222E16F07006B6705 /* UINavigationController+XYNavigationBar.m */,
 				0362C92221ED798C001A2E7D /* NSArray+XYConditions.h */,
 				0362C92321ED798C001A2E7D /* NSArray+XYConditions.m */,
 				036A5ECF21C74F5300A0610F /* NSDate+XYAttribute.h */,
@@ -151,6 +159,8 @@
 				035886AC21C39B6C00516422 /* UIButton+XYExtension.m */,
 				035886A321C3998200516422 /* UIControl+ClickRepeatedly.h */,
 				0358869F21C3998200516422 /* UIControl+ClickRepeatedly.m */,
+				D1B77F9F22E16EE4006B6705 /* UINavigationController+XYBase.h */,
+				D1B77FA022E16EE4006B6705 /* UINavigationController+XYBase.m */,
 			);
 			name = Category;
 			path = ../../Category;
@@ -282,7 +292,9 @@
 				03682BE921D765790087A346 /* XYAuthIDDemoController.m in Sources */,
 				035886AA21C3998200516422 /* NSString+XYRegex.m in Sources */,
 				0358868521C3993C00516422 /* ViewController.m in Sources */,
+				D1B77FA122E16EE4006B6705 /* UINavigationController+XYBase.m in Sources */,
 				0362C92421ED798C001A2E7D /* NSArray+XYConditions.m in Sources */,
+				D1B77FA422E16F07006B6705 /* UINavigationController+XYNavigationBar.m in Sources */,
 				0358869021C3993E00516422 /* main.m in Sources */,
 				035886AE21C39B6C00516422 /* UIButton+XYExtension.m in Sources */,
 				035886A921C3998200516422 /* NSString+Date.m in Sources */,
