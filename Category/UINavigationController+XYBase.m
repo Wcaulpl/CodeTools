@@ -50,19 +50,6 @@
     
 }
 
-//- (void)xy_base_viewDidLoad {
-//    [self xy_base_viewDidLoad];
-//
-//    if([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
-//        [self.navigationBar setBackgroundImage:[UIImage imageNamed:CTNAVGATION_HimageName] forBarMetrics:UIBarMetricsDefault];
-//    } else {
-//        [self.navigationBar setBackgroundImage:[UIImage imageNamed:CTNAVGATION_ImageName] forBarMetrics:UIBarMetricsDefault];
-//    }
-//    [self.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont boldSystemFontOfSize:16]}];
-//    self.navigationBar.barTintColor = XYBarTintColor;
-//    self.interactivePopGestureRecognizer.delegate = self;
-//}
-
 - (void)xy_base_pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake(0, 0, 40, 40);

@@ -7,6 +7,8 @@
 //
 
 #import "UINavigationController+XYNavigationBar.h"
+#import "LZNavigationController.h"
+
 #import <objc/runtime.h>
 
 typedef void(^XYViewControllerWillAppearInjectBlock)(UIViewController *viewController, BOOL animated);
@@ -20,46 +22,51 @@ typedef void(^XYViewControllerWillAppearInjectBlock)(UIViewController *viewContr
 // MARK: - 替换UIViewController的viewWillAppear方法，在此方法中，执行设置导航栏隐藏和显示的代码块。
 @implementation UIViewController (XYHandlerNavigationBarPrivate)
 
-+ (void)load
-{
++ (void)load {
     Method orginalMethod = class_getInstanceMethod(self, @selector(viewWillAppear:));
-    Method swizzledMethod = class_getInstanceMethod(self, @selector(xy_navigationBar_viewWillAppear:));
+    Method swizzledMethod = class_getInstanceMethod(self, @selector(xy_viewWillAppear:));
     method_exchangeImplementations(orginalMethod, swizzledMethod);
+    
+//    Method orginalDisMethod = class_getInstanceMethod(self, @selector(viewWillDisappear:));
+//    Method swizzledDisMethod = class_getInstanceMethod(self, @selector(xy_viewWillDisappear:));
+//    method_exchangeImplementations(orginalDisMethod, swizzledDisMethod);
 }
 
-- (void)xy_navigationBar_viewWillAppear:(BOOL)animated
-{
-    [self xy_navigationBar_viewWillAppear:animated];
-    
+- (void)xy_viewWillAppear:(BOOL)animated {
+    [self xy_viewWillAppear:animated];
     if (self.xy_willAppearInjectBlock) {
         self.xy_willAppearInjectBlock(self, animated);
     }
 }
 
-- (XYViewControllerWillAppearInjectBlock)xy_willAppearInjectBlock
-{
+- (XYViewControllerWillAppearInjectBlock)xy_willAppearInjectBlock {
     return objc_getAssociatedObject(self, _cmd);
 }
 
-- (void)setXy_willAppearInjectBlock:(XYViewControllerWillAppearInjectBlock)block
-{
+- (void)setXy_willAppearInjectBlock:(XYViewControllerWillAppearInjectBlock)block {
     objc_setAssociatedObject(self, @selector(xy_willAppearInjectBlock), block, OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 
 @end
 
-// MARK: - 给UIViewController添加xy_prefersNavigationBarHidden属性
 
+// MARK: - 给UIViewController添加xy_prefersNavigationBarHidden属性
 @implementation UIViewController (XYHandlerNavigationBar)
 
-- (BOOL)xy_prefersNavigationBarHidden
-{
+- (BOOL)xy_prefersNavigationBarHidden {
     return [objc_getAssociatedObject(self, _cmd) boolValue];
 }
 
-- (void)setXy_prefersNavigationBarHidden:(BOOL)hidden
-{
+- (void)setXy_prefersNavigationBarHidden:(BOOL)hidden {
     objc_setAssociatedObject(self, @selector(xy_prefersNavigationBarHidden), @(hidden), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (BOOL)xy_prefersNavigationBarTransparent {
+    return [objc_getAssociatedObject(self, _cmd) boolValue];
+}
+
+- (void)setXy_prefersNavigationBarTransparent:(BOOL)transparent {
+    objc_setAssociatedObject(self, @selector(xy_prefersNavigationBarTransparent), @(transparent), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 @end
@@ -68,36 +75,33 @@ typedef void(^XYViewControllerWillAppearInjectBlock)(UIViewController *viewContr
 @implementation UINavigationController (XYNavigationBar)
 
 + (void)load {
+    
     Method originMethod = class_getInstanceMethod(self, @selector(pushViewController:animated:));
-    Method swizzedMethod = class_getInstanceMethod(self, @selector(xy_navigationBar_pushViewController:animated:));
+    Method swizzedMethod = class_getInstanceMethod(self, @selector(xy_pushViewController:animated:));
     method_exchangeImplementations(originMethod, swizzedMethod);
     
     Method originSetViewControllersMethod = class_getInstanceMethod(self, @selector(setViewControllers:animated:));
-    Method swizzedSetViewControllersMethod = class_getInstanceMethod(self, @selector(xy_navigationBar_setViewControllers:animated:));
+    Method swizzedSetViewControllersMethod = class_getInstanceMethod(self, @selector(xy_setViewControllers:animated:));
     method_exchangeImplementations(originSetViewControllersMethod, swizzedSetViewControllersMethod);
 }
 
-- (void)xy_navigationBar_pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
+- (void)xy_pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
     // Handle perferred navigation bar appearance.
     [self xy_setupViewControllerBasedNavigationBarAppearanceIfNeeded:viewController];
-    
     // Forward to primary implementation.
-    [self xy_navigationBar_pushViewController:viewController animated:animated];
+    [self xy_pushViewController:viewController animated:animated];
 }
 
-- (void)xy_navigationBar_setViewControllers:(NSArray<UIViewController *> *)viewControllers animated:(BOOL)animated
-{
+- (void)xy_setViewControllers:(NSArray<UIViewController *> *)viewControllers animated:(BOOL)animated {
     // Handle perferred navigation bar appearance.
     for (UIViewController *viewController in viewControllers) {
         [self xy_setupViewControllerBasedNavigationBarAppearanceIfNeeded:viewController];
     }
-    
     // Forward to primary implementation.
-    [self xy_navigationBar_setViewControllers:viewControllers animated:animated];
+    [self xy_setViewControllers:viewControllers animated:animated];
 }
 
-- (void)xy_setupViewControllerBasedNavigationBarAppearanceIfNeeded:(UIViewController *)appearingViewController
-{
+- (void)xy_setupViewControllerBasedNavigationBarAppearanceIfNeeded:(UIViewController *)appearingViewController {
     if (!self.xy_viewControllerBasedNavigationBarAppearanceEnabled) {
         return;
     }
@@ -108,6 +112,9 @@ typedef void(^XYViewControllerWillAppearInjectBlock)(UIViewController *viewContr
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (strongSelf) {
             [strongSelf setNavigationBarHidden:viewController.xy_prefersNavigationBarHidden animated:animated];
+            if (!viewController.xy_prefersNavigationBarHidden && [strongSelf isKindOfClass:[LZNavigationController class]]) {
+                strongSelf.navigationBar.translucent = viewController.xy_prefersNavigationBarTransparent;
+            }
         }
     };
     
@@ -121,8 +128,7 @@ typedef void(^XYViewControllerWillAppearInjectBlock)(UIViewController *viewContr
     }
 }
 
-- (BOOL)xy_viewControllerBasedNavigationBarAppearanceEnabled
-{
+- (BOOL)xy_viewControllerBasedNavigationBarAppearanceEnabled {
     NSNumber *number = objc_getAssociatedObject(self, _cmd);
     if (number) {
         return number.boolValue;
@@ -131,10 +137,8 @@ typedef void(^XYViewControllerWillAppearInjectBlock)(UIViewController *viewContr
     return YES;
 }
 
-- (void)setXy_viewControllerBasedNavigationBarAppearanceEnabled:(BOOL)enabled
-{
-    SEL key = @selector(xy_viewControllerBasedNavigationBarAppearanceEnabled);
-    objc_setAssociatedObject(self, key, @(enabled), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)setXy_viewControllerBasedNavigationBarAppearanceEnabled:(BOOL)enabled {
+    objc_setAssociatedObject(self, @selector(xy_viewControllerBasedNavigationBarAppearanceEnabled), @(enabled), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 @end

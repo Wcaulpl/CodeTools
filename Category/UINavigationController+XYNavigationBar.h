@@ -27,6 +27,12 @@ NS_ASSUME_NONNULL_BEGIN
 ///默认为 NO
 @property (nonatomic, assign) BOOL xy_prefersNavigationBarHidden;
 
+///指示此视图控制器是否希望使其导航栏 透明，
+///启用基于视图控制器的导航栏外观时选中。
+///默认为 NO
+/// 设置 透明 必须 NavigationBar.shadowImage = UIImage.new; [NavigationBar setBackgroundImage:UIImage.new forBarMetrics:UIBarMetricsDefault];
+@property (nonatomic, assign) BOOL xy_prefersNavigationBarTransparent;
+
 @end
 
 NS_ASSUME_NONNULL_END

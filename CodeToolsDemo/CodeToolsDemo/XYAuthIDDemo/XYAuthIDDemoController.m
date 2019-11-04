@@ -75,7 +75,6 @@
 
 #pragma mark - 验证TouchID/FaceID
 - (void)authVerification {
-    
     [XYAuthID xy_showAuthIDFinished:^(XYAuthIDState state, NSError * _Nonnull error) {
         if (state == XYAuthIDStateNotSupport) { // 不支持TouchID/FaceID
             NSLog(@"对不起，当前设备不支持指纹/面容ID");

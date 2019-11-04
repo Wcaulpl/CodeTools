@@ -210,7 +210,7 @@ static Byte gIv[] = { 0x19, 0x34, 0x57, 0x72, 0x90, 0xAB, 0xCD, 0xEF, 0x12, 0x64
     
     if (cryptStatus == kCCSuccess) {
         NSData *resultData = [NSData dataWithBytesNoCopy:buffer length:numBytesCrypted];
-        return [GTMBase64 stringByEncodingData:resultData];
+        return  nil;// [GTMBase64 stringByEncodingData:resultData];
     }
     free(buffer);
     return nil;

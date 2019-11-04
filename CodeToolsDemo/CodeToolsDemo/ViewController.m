@@ -98,22 +98,23 @@
 }
 
 - (IBAction)changeNav:(UIButton *)sender {
-    if ([self.titleNav.text isEqualToString:@"导航自然title"]) {
-        self.titleNav.text = @"导航滚动title: 这是一段很长很长很长很长很长很长很长很长很长很长很长很长很长很长的一段文字";
-        XYViewCornerRadius(self.backView, 20, UIRectCornerTopLeft|UIRectCornerTopRight);
-    } else {
-        self.titleNav.text = @"导航自然title";
-        XYViewCornerRadius(self.backView, 20, UIRectCornerBottomRight|UIRectCornerBottomLeft);
-    }
-    
-    BOOL supportsAlternateIcons = [XYAppIconTools xy_supportsAlternateIcons];
-    NSLog(@"supportsAlternateIcons value: %@", supportsAlternateIcons?@"YES":@"NO");
-    if (!supportsAlternateIcons) {
-        return;
-    }
-    [XYAppIconTools xy_setAlternateIconsWithIconName:@"male" completionHandler:^(NSError * _Nullable error) {
-        NSLog(@"error: %@", error);
-    }];
+    [self next];
+//    if ([self.titleNav.text isEqualToString:@"导航自然title"]) {
+//        self.titleNav.text = @"导航滚动title: 这是一段很长很长很长很长很长很长很长很长很长很长很长很长很长很长的一段文字";
+//        XYViewCornerRadius(self.backView, 20, UIRectCornerTopLeft|UIRectCornerTopRight);
+//    } else {
+//        self.titleNav.text = @"导航自然title";
+//        XYViewCornerRadius(self.backView, 20, UIRectCornerBottomRight|UIRectCornerBottomLeft);
+//    }
+//
+//    BOOL supportsAlternateIcons = [XYAppIconTools xy_supportsAlternateIcons];
+//    NSLog(@"supportsAlternateIcons value: %@", supportsAlternateIcons?@"YES":@"NO");
+//    if (!supportsAlternateIcons) {
+//        return;
+//    }
+//    [XYAppIconTools xy_setAlternateIconsWithIconName:@"male" completionHandler:^(NSError * _Nullable error) {
+//        NSLog(@"error: %@", error);
+//    }];
     
 }
 
