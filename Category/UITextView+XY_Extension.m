@@ -26,20 +26,31 @@
 
 @implementation UITextView (XY_Extension)
 
++ (void)load {
+    Method orginalMethod = class_getInstanceMethod(self, @selector(setText:));
+    Method swizzledMethod = class_getInstanceMethod(self, @selector(xy_setText:));
+    method_exchangeImplementations(orginalMethod, swizzledMethod);
+}
+
+- (void)xy_setText:(NSString *)text {
+    [self xy_setText:text];
+    [[NSNotificationCenter defaultCenter] postNotificationName:UITextViewTextDidChangeNotification object:self];
+}
+
 - (void)setXy_addNoti:(BOOL)xy_addNoti {
     
-    objc_setAssociatedObject(self, &@selector(xy_addNoti), [NSNumber numberWithBool:xy_addNoti], OBJC_ASSOCIATION_ASSIGN);
+    objc_setAssociatedObject(self, @selector(xy_addNoti), [NSNumber numberWithBool:xy_addNoti], OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 
 - (BOOL)xy_addNoti {
     
-    BOOL obj = [objc_getAssociatedObject(self, &@selector(xy_addNoti)) boolValue];
+    BOOL obj = [objc_getAssociatedObject(self, _cmd) boolValue];
     return obj;
 }
 
 - (void)setXy_placeholderStr:(NSString *)xy_placeholderStr {
     
-    objc_setAssociatedObject(self, &@selector(xy_placeholderStr), xy_placeholderStr, OBJC_ASSOCIATION_COPY_NONATOMIC);
+    objc_setAssociatedObject(self, @selector(xy_placeholderStr), xy_placeholderStr, OBJC_ASSOCIATION_COPY_NONATOMIC);
     
     [self xy_fixMessyDisplay];
     self.xy_placeholderLabel.backgroundColor = [UIColor clearColor];
@@ -47,13 +58,13 @@
 
 - (NSString *)xy_placeholderStr {
     
-    NSString *obj = objc_getAssociatedObject(self, &@selector(xy_placeholderStr));
+    NSString *obj = objc_getAssociatedObject(self, _cmd);
     return obj;
 }
 
 - (void)setXy_placeholderColor:(UIColor *)xy_placeholderColor {
     
-    objc_setAssociatedObject(self, &@selector(xy_placeholderColor), xy_placeholderColor, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, @selector(xy_placeholderColor), xy_placeholderColor, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
     [self xy_fixMessyDisplay];
     self.xy_placeholderLabel.backgroundColor = [UIColor clearColor];;
@@ -61,71 +72,71 @@
 
 - (UIColor *)xy_placeholderColor {
     
-    UIColor *obj = objc_getAssociatedObject(self, &@selector(xy_placeholderColor));
+    UIColor *obj = objc_getAssociatedObject(self, _cmd);
     return obj;
 }
 
 - (void)setXy_placeholderFont:(UIFont *)xy_placeholderFont {
     
-    objc_setAssociatedObject(self, &@selector(xy_placeholderFont), xy_placeholderFont, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, @selector(xy_placeholderFont), xy_placeholderFont, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     self.xy_placeholderLabel.backgroundColor = [UIColor clearColor];
 }
 
 - (UIFont *)xy_placeholderFont {
     
-    UIFont *obj = objc_getAssociatedObject(self, &@selector(xy_placeholderFont));
+    UIFont *obj = objc_getAssociatedObject(self, _cmd);
     return obj;
 }
 
 - (void)setXy_maximumLimit:(NSInteger)xy_maximumLimit {
     
-    objc_setAssociatedObject(self, &@selector(xy_maximumLimit), [NSNumber numberWithInteger:xy_maximumLimit], OBJC_ASSOCIATION_ASSIGN);
+    objc_setAssociatedObject(self, @selector(xy_maximumLimit), [NSNumber numberWithInteger:xy_maximumLimit], OBJC_ASSOCIATION_ASSIGN);
     [self xy_fixMessyDisplay];
 }
 
 - (NSInteger)xy_maximumLimit {
     
-    id obj = objc_getAssociatedObject(self, &@selector(xy_maximumLimit));
+    id obj = objc_getAssociatedObject(self, _cmd);
     return [obj integerValue];
 }
 
 - (void)setXy_characterLengthPrompt:(BOOL)xy_characterLengthPrompt {
     
-    objc_setAssociatedObject(self, &@selector(xy_characterLengthPrompt), [NSNumber numberWithBool:xy_characterLengthPrompt], OBJC_ASSOCIATION_ASSIGN);
+    objc_setAssociatedObject(self, @selector(xy_characterLengthPrompt), [NSNumber numberWithBool:xy_characterLengthPrompt], OBJC_ASSOCIATION_ASSIGN);
     [self xy_fixMessyDisplay];
     
 //    self.xy_height = (xy_characterLengthPrompt == YES) ? self.xy_height-25 : self.xy_height+25;
-    self.xy_charactersLengthLabel.text = [NSString stringWithFormat:@"%lu/%ld\t",(unsigned long)self.text.length > (long)self.xy_maximumLimit ? (long)self.xy_maximumLimit : (unsigned long)self.text.length ,(long)self.xy_maximumLimit];
+    self.xy_charactersLengthLabel.text = [NSString stringWithFormat:@"%lu/%ld",(unsigned long)self.text.length > (long)self.xy_maximumLimit ? (long)self.xy_maximumLimit : (unsigned long)self.text.length ,(long)self.xy_maximumLimit];
     self.xy_charactersLengthLabel.hidden = !xy_characterLengthPrompt;
 }
 
 - (BOOL)xy_characterLengthPrompt {
     
-    id obj = objc_getAssociatedObject(self, &@selector(xy_characterLengthPrompt));
+    id obj = objc_getAssociatedObject(self, _cmd);
     return [obj boolValue];
 }
 
 - (void)setXy_charactersLengthColor:(UIColor *)xy_charactersLengthColor {
     
-    objc_setAssociatedObject(self, &@selector(xy_charactersLengthColor), xy_charactersLengthColor, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, @selector(xy_charactersLengthColor), xy_charactersLengthColor, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
     [self xy_fixMessyDisplay];
 }
 
 - (UIColor *)xy_charactersLengthColor {
     
-    UIColor *obj = objc_getAssociatedObject(self, &@selector(xy_charactersLengthColor));
+    UIColor *obj = objc_getAssociatedObject(self, _cmd);
     return obj;
 }
 
 - (void)setXy_charactersLengthFont:(UIFont *)xy_charactersLengthFont {
     
-    objc_setAssociatedObject(self, &@selector(xy_charactersLengthFont), xy_charactersLengthFont, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, @selector(xy_charactersLengthFont), xy_charactersLengthFont, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (UIFont *)xy_charactersLengthFont {
     
-    UIFont *obj = objc_getAssociatedObject(self, &@selector(xy_charactersLengthFont));
+    UIFont *obj = objc_getAssociatedObject(self, _cmd);
     return obj;
 }
 
@@ -158,7 +169,7 @@
     UILabel *obj = objc_getAssociatedObject(self, @selector(xy_charactersLengthLabel));
     if(obj == nil) {
         
-        obj = [[UILabel alloc]initWithFrame:CGRectMake(0, self.xy_height-25, self.xy_width-10, 25)];
+        obj = [[UILabel alloc]initWithFrame:CGRectMake(0, self.xy_height-25, self.xy_width-14, 25)];
         obj.backgroundColor = self.backgroundColor;
         obj.textAlignment = NSTextAlignmentRight;
         obj.userInteractionEnabled = YES;
@@ -174,12 +185,12 @@
 
 - (void)setXy_textHandle:(void (^)(NSString *))xy_textHandle {
     
-    objc_setAssociatedObject(self, &@selector(xy_textHandle), xy_textHandle, OBJC_ASSOCIATION_COPY_NONATOMIC);
+    objc_setAssociatedObject(self, @selector(xy_textHandle), xy_textHandle, OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 
 - (void (^)(NSString *))xy_textHandle {
     
-    id handle = objc_getAssociatedObject(self, &@selector(xy_textHandle));
+    id handle = objc_getAssociatedObject(self, @selector(xy_textHandle));
     if (handle) {
         
         return (void(^)(NSString *textStr))handle;
@@ -211,6 +222,20 @@
 - (void)xy_fixMessyDisplay {
     
     if(self.xy_maximumLimit <= 0) {self.xy_maximumLimit = MAXFLOAT;}
+    
+    if (self.xy_placeholderStr) {
+        self.xy_placeholderLabel.xy_left = 5.0f;
+        self.xy_placeholderLabel.xy_top = 8.0f;
+        self.xy_placeholderLabel.xy_width = self.xy_width-(5.0f*2);
+    }
+    
+    if(self.xy_characterLengthPrompt == YES) {
+        if(self.xy_charactersLengthLabel.superview == nil) {
+            self.xy_charactersLengthLabel.frame = CGRectMake(0, self.xy_height-25, self.xy_width-10, 25);
+            [self addSubview:self.xy_charactersLengthLabel];
+        }
+    }
+    
     [self xy_addTextChangeNoti];
 }
 
@@ -246,7 +271,7 @@
     self.xy_lastTextStr = self.text;
     
     self.xy_placeholderLabel.hidden = (self.text.length > 0) ? YES : NO;
-    self.xy_charactersLengthLabel.text = [NSString stringWithFormat:@"%lu/%ld\t",(unsigned long)self.text.length > (long)self.xy_maximumLimit ? (long)self.xy_maximumLimit : (unsigned long)self.text.length ,(long)self.xy_maximumLimit];
+    self.xy_charactersLengthLabel.text = [NSString stringWithFormat:@"%lu/%ld",(unsigned long)self.text.length > (long)self.xy_maximumLimit ? (long)self.xy_maximumLimit : (unsigned long)self.text.length ,(long)self.xy_maximumLimit];
 }
 
 - (void)xy_addTextChangeNoti {
@@ -262,19 +287,12 @@
 - (void)layoutSubviews {
     
     [super layoutSubviews];
-    if (self.xy_placeholderStr) {
-        self.xy_placeholderLabel.xy_left = 5.0f;
-        self.xy_placeholderLabel.xy_top = 8.0f;
-        self.xy_placeholderLabel.xy_width = self.xy_width-(5.0f*2);
-    }
-    if(self.xy_characterLengthPrompt == YES) {
-        self.xy_charactersLengthLabel.layer.borderWidth = self.layer.borderWidth;
-        self.xy_charactersLengthLabel.layer.borderColor = self.layer.borderColor;
-        if(self.xy_charactersLengthLabel.superview == nil) {
-            self.xy_charactersLengthLabel.frame = CGRectMake(0, self.xy_height-25, self.xy_width-10, 25);
-            [self addSubview:self.xy_charactersLengthLabel];
-        }
-    }
+    
+}
+
+- (void)clear {
+    self.text = @"";
+    [self xy_characterTruncation];
 }
 
 - (void)dealloc {
