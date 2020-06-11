@@ -34,6 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)xy_replaceViewController:(UIViewController *)viewController animated:(BOOL)animated;
 
+- (void)back;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -9,16 +9,7 @@
 #import "UINavigationController+XYBase.h"
 #import <objc/runtime.h>
 
-#define CTNAVGATION_HimageName @"navHigh_bg.png"
-#define CTNAVGATION_ImageName @"nav_bg.png"
-#define XYBarTintColor [UIColor blueColor]
-
-#define backImageIcon @""
-#define firstImageIcon @""
-
-
-
-@implementation UIViewController (XYHandlerNavigationBar)
+@implementation UIViewController (XYSideslip)
 
 - (BOOL)xy_prefersSide_slipBackEnabled
 {
@@ -42,6 +33,11 @@
 
 @implementation UINavigationController (XYBase)
 
+#pragma 禁止app屏幕旋转
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
+
 + (void)load {
     
     Method originMethod = class_getInstanceMethod(self, @selector(pushViewController:animated:));
@@ -51,6 +47,7 @@
 }
 
 - (void)xy_base_pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    self.interactivePopGestureRecognizer.delegate = self;
     if (self.childViewControllers.count) {
         [self configureViewController:viewController];
     }
@@ -83,9 +80,10 @@
 - (void)configureViewController:(UIViewController *)viewController {
     viewController.hidesBottomBarWhenPushed = YES;
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.tag = 1;
     button.frame = CGRectMake(0, 0, 40, 40);
     // 如果push进来的不是第一个控制器
-    [button setImage:[UIImage imageNamed:backImageIcon] forState:UIControlStateNormal];
+    button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     button.imageView.contentMode = UIViewContentModeScaleAspectFill;
     [button addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     // 修改导航栏左边的item

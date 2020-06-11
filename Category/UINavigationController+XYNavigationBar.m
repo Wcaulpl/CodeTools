@@ -1,15 +1,16 @@
 //
 //  UINavigationController+XYNavigationBar.m
-//  DDPay
+//  Leton
 //
 //  Created by htmj on 2019/7/15.
 //  Copyright © 2019年 htmj. All rights reserved.
 //
 
 #import "UINavigationController+XYNavigationBar.h"
-#import "LZNavigationController.h"
-
 #import <objc/runtime.h>
+
+#define backImageIcon @"nav_back_black"
+#define whiteImageIcon @"nav_back_white"
 
 typedef void(^XYViewControllerWillAppearInjectBlock)(UIViewController *viewController, BOOL animated);
 
@@ -112,8 +113,13 @@ typedef void(^XYViewControllerWillAppearInjectBlock)(UIViewController *viewContr
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (strongSelf) {
             [strongSelf setNavigationBarHidden:viewController.xy_prefersNavigationBarHidden animated:animated];
-            if (!viewController.xy_prefersNavigationBarHidden && [strongSelf isKindOfClass:[LZNavigationController class]]) {
+            if (!viewController.xy_prefersNavigationBarHidden && [strongSelf isKindOfClass:[UINavigationController class]]) {
                 strongSelf.navigationBar.translucent = viewController.xy_prefersNavigationBarTransparent;
+                UIButton *leftBtn = (UIButton *)viewController.navigationItem.leftBarButtonItem.customView;
+                if (leftBtn.tag == 1) {
+                    [leftBtn setImage:[UIImage imageNamed:viewController.xy_prefersNavigationBarTransparent?whiteImageIcon:backImageIcon] forState:UIControlStateNormal];
+                }
+                [viewController.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:viewController.xy_prefersNavigationBarTransparent?UIColor.whiteColor:HEX(0x333333, 1),NSFontAttributeName: [UIFont fontWithName:@"PingFangSC-Semibold" size: 17]}];
             }
         }
     };
