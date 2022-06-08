@@ -25,8 +25,8 @@
 验证 
 pod lib lint --verbose  --allow-warnings --sources="https://github.com/xxx/Specs.git,https://git.xxx.com/spec.git,https://github.com/CocoaPods/Specs.git"
 
-
-
+新增验证命令
+pod spec lint --allow-warnings --use-libraries --skip-import-validation
 ```
 
 推到仓库
